@@ -1,0 +1,13 @@
+{
+  "description": "RBI Bank Rate history. Section 16 MSMED Act interest = 3 x the rate in force on each day. Add a new entry after every RBI monetary policy change.",
+  "lastReviewed": "2026-11-07",
+  "nextReview": "After the RBI MPC decision due 2026-12-04",
+  "rates": [
+    { "effectiveFrom": "2023-02-08", "bankRatePct": 6.75, "verified": false, "note": "VERIFY against RBI press release" },
+    { "effectiveFrom": "2025-02-07", "bankRatePct": 6.50, "verified": false, "note": "VERIFY against RBI press release" },
+    { "effectiveFrom": "2025-04-09", "bankRatePct": 6.25, "verified": false, "note": "VERIFY against RBI press release" },
+    { "effectiveFrom": "2025-06-06", "bankRatePct": 5.75, "verified": false, "note": "VERIFY against RBI press release" },
+    { "effectiveFrom": "2025-12-05", "bankRatePct": 5.50, "verified": true, "source": "https://calcguru.in/?p=1858" },
+    { "effectiveFrom": "2026-10-07", "bankRatePct": 5.75, "verified": true, "source": "https://taxguru.in/?p=1087330" }
+  ]
+}

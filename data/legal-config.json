@@ -1,0 +1,47 @@
+{
+  "lastReviewed": "2026-11-07",
+  "paymentRules": {
+    "noAgreementDays": 15,
+    "maxAgreedDays": 45,
+    "objectionWindowDays": 15,
+    "interestMultiplier": 3,
+    "dayCountBasis": 365,
+    "compounding": "monthly_rests"
+  },
+  "taxSections": [
+    {
+      "fromTaxYear": "2023-24",
+      "toTaxYear": "2025-26",
+      "act": "Income-tax Act, 1961",
+      "section": "Section 43B(h)"
+    },
+    {
+      "fromTaxYear": "2026-27",
+      "toTaxYear": null,
+      "act": "Income-tax Act, 2025",
+      "section": "Section 37(2)(g)",
+      "source": "https://accountune.com/msme-45-day-payment-rule-section-43bh"
+    }
+  ],
+  "msmedSections": {
+    "deadline": { "label": "MSMED Act, 2006, Section 15" },
+    "interest": { "label": "MSMED Act, 2006, Section 16" },
+    "recovery": { "label": "MSMED Act, 2006, Section 17" },
+    "interestNotDeductible": { "label": "MSMED Act, 2006, Section 23" }
+  },
+  "classificationFrom2025": {
+    "effectiveFrom": "2025-04-01",
+    "notification": "S.O. 1364(E), 21 March 2025",
+    "micro": { "investmentCr": 2.5, "turnoverCr": 10 },
+    "small": { "investmentCr": 25, "turnoverCr": 100 },
+    "medium": { "investmentCr": 125, "turnoverCr": 500 }
+  },
+  "complaintPortal": {
+    "name": "MSME ODR portal",
+    "note": "Only route for new delayed-payment references since 15 October 2025. MSME Samadhaan handles only older pending cases.",
+    "url": "VERIFY: add the official ODR portal URL"
+  },
+  "amendment2026Notified": false,
+  "seasonality": { "taxArgumentStrongMonths": [1, 2, 3] },
+  "disclaimer": "This tool gives general information based on the MSMED Act, 2006 and the Income-tax Act. It is not legal or tax advice. Please confirm with your Chartered Accountant or lawyer before taking action."
+}

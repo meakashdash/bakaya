@@ -1,0 +1,21 @@
+{
+  "description": "Buyer's effective tax rate used to estimate the tax exposure. Shown as a range when the buyer type is unknown. VERIFY all rates with a CA, including under the Income-tax Act 2025.",
+  "lastReviewed": "2026-11-07",
+  "buyerTypes": [
+    {
+      "id": "company_concessional",
+      "label": "Company (most common)",
+      "effectiveRatePct": 25.168,
+      "basis": "22% base + 10% surcharge + 4% cess",
+      "verified": false
+    },
+    {
+      "id": "firm_llp_high_income",
+      "label": "Partnership firm or LLP",
+      "effectiveRatePct": 34.944,
+      "basis": "30% base + 12% surcharge + 4% cess (income above Rs 1 crore)",
+      "verified": false
+    }
+  ],
+  "unknownRange": { "lowPct": 25.168, "highPct": 34.944 }
+}
