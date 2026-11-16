@@ -15,6 +15,7 @@ import { localePath } from '../router';
 import { letterMode } from '../letters/mode';
 import { buildWhatsAppText, whatsAppUrl } from '../letters/whatsapp';
 import { SrSuffix } from '../components/SrSuffix';
+import { FileText, Refresh, WhatsApp } from '../components/icons';
 import { track } from '../analytics';
 
 type Props = {
@@ -43,12 +44,12 @@ export function Result({
   const mode = letterMode(input, result);
 
   return (
-    <section aria-labelledby="result-heading" className="space-y-4">
+    <section aria-labelledby="result-heading" className="space-y-4 lg:pt-2">
       <h2
         id="result-heading"
         ref={headingRef}
         tabIndex={-1}
-        className="scroll-mt-4 text-2xl font-bold text-stone-900 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800"
+        className="scroll-mt-24 text-2xl font-extrabold tracking-tight text-stone-900 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800 sm:text-3xl"
       >
         {t('result.heading')}
       </h2>
@@ -81,7 +82,7 @@ export function Result({
 
       <div className="space-y-3 pt-2">
         {mode === 'not_yet_due' && result.covered ? (
-          <p className="rounded-lg bg-stone-100 p-4 text-stone-800">
+          <p className="rounded-xl bg-stone-100 p-4 text-stone-800 ring-1 ring-stone-200">
             {t('letter.notYetDue', { dueDate: formatDate(result.dueDate) })}
           </p>
         ) : (
@@ -89,8 +90,9 @@ export function Result({
             type="button"
             ref={letterButtonRef}
             onClick={onCreateLetter}
-            className="flex min-h-14 w-full items-center justify-center rounded-lg bg-green-800 px-5 py-3 text-lg font-semibold text-white hover:bg-green-900 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-green-800"
+            className="btn-primary"
           >
+            <FileText />
             {t('letter.open')}
           </button>
         )}
@@ -100,8 +102,9 @@ export function Result({
           target="_blank"
           rel="noopener noreferrer"
           aria-describedby="whatsapp-hint"
-          className="flex min-h-14 w-full items-center justify-center rounded-lg border-2 border-green-800 bg-white px-5 py-3 text-lg font-semibold text-green-800 hover:bg-green-50 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-green-800"
+          className="btn-secondary"
         >
+          <WhatsApp />
           {t('result.actions.whatsapp')}
           <SrSuffix>{t('common.opensNewTab')}</SrSuffix>
         </a>
@@ -111,8 +114,9 @@ export function Result({
         <button
           type="button"
           onClick={onCalculateAnother}
-          className="min-h-12 w-full rounded-lg px-5 py-3 font-semibold text-green-800 underline underline-offset-4 hover:text-green-900 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-green-800"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold text-green-800 hover:bg-green-50"
         >
+          <Refresh className="size-4.5" />
           {t('result.actions.another')}
         </button>
       </div>

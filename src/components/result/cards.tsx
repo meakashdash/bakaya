@@ -11,6 +11,7 @@ import type {
 import { formatDate, formatPercent, pluralKey, t } from '../../i18n';
 import { citationLabel, disclaimerText } from '../../i18n/legal';
 import { Trans } from '../../i18n/Trans';
+import { Alert, Calendar, Info, Scale } from '../icons';
 import { Link } from '../Link';
 import { WARNING_VARS } from './warningVars';
 import { SrSuffix } from '../SrSuffix';
@@ -30,10 +31,17 @@ function Card({
       aria-labelledby={labelledBy}
       className={
         lead
-          ? 'rounded-2xl bg-green-800 p-5 text-white shadow-sm sm:p-6'
-          : 'rounded-2xl border border-stone-200 bg-white p-5 text-stone-900 sm:p-6'
+          ? 'relative isolate overflow-hidden rounded-2xl bg-gradient-to-br from-green-800 via-green-800 to-green-950 p-6 text-white shadow-lift sm:p-7'
+          : 'surface p-5 text-stone-900 sm:p-6'
       }
     >
+      {lead && (
+        // Decorative ring in the corner of the headline card.
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-16 -right-16 -z-10 size-56 rounded-full border-[28px] border-white/[0.06]"
+        />
+      )}
       {children}
     </section>
   );
@@ -42,7 +50,7 @@ function Card({
 function Money({ amount, lead }: { amount: Amount; lead: boolean }) {
   return (
     <strong
-      className={`font-bold whitespace-nowrap tabular-nums ${lead ? 'text-4xl sm:text-5xl' : 'text-3xl'}`}
+      className={`font-extrabold tracking-tight whitespace-nowrap tabular-nums ${lead ? 'text-[2.6rem] leading-tight sm:text-5xl' : 'text-3xl text-green-800'}`}
     >
       {formatRupees(amount.rupees)}
     </strong>
@@ -71,7 +79,7 @@ function ExposureBasis({ exposure }: { exposure: TaxExposure }) {
       });
 }
 
-const muted = (lead: boolean) => (lead ? 'text-green-50' : 'text-stone-700');
+const muted = (lead: boolean) => (lead ? 'text-green-50/90' : 'text-stone-600');
 
 export function InterestCard({ result, lead }: { result: CoveredResult; lead: boolean }) {
   return (
@@ -122,7 +130,12 @@ export function TaxCard({
           <Trans k="result.tax.atRisk" values={{ yearEnd: formatDate(tax.yearEnd), amount }} />
         </p>
         {tax.daysToYearEnd > 0 && (
-          <p className="mt-3 inline-block rounded-full bg-stone-900/10 px-3 py-1 font-semibold">
+          <p
+            className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${
+              lead ? 'bg-white/15 text-white' : 'bg-amber-100 text-amber-950'
+            }`}
+          >
+            <Calendar className="size-4" />
             {t(pluralKey('result.tax.daysLeft', tax.daysToYearEnd), { days: tax.daysToYearEnd })}
           </p>
         )}
@@ -155,18 +168,22 @@ export function TaxCard({
   return (
     <Card lead={lead} labelledBy="tax-card-title">
       {body}
-      <p className={`mt-3 text-sm ${muted(lead)}`}>
+      <p
+        className={`mt-4 border-t pt-3 text-sm ${lead ? 'border-white/15' : 'border-stone-200'} ${muted(lead)}`}
+      >
         <ExposureBasis exposure={tax.exposure} />
       </p>
     </Card>
   );
 }
 
-function Row({ term, children }: { term: string; children: ReactNode }) {
+function Row({ term, wide, children }: { term: string; wide?: boolean; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-0.5 border-t border-stone-200 py-3 first:border-t-0 first:pt-0">
+    <div
+      className={`flex flex-col gap-1 rounded-xl bg-stone-50 p-3.5 ring-1 ring-stone-200/70 ${wide ? 'col-span-2' : ''}`}
+    >
       <dt className="text-sm text-stone-600">{term}</dt>
-      <dd className="text-lg font-semibold text-stone-900 tabular-nums">{children}</dd>
+      <dd className="text-lg leading-snug font-bold text-stone-900 tabular-nums">{children}</dd>
     </div>
   );
 }
@@ -181,18 +198,13 @@ export function DeadlineCard({
   const rate = result.currentRate;
   return (
     <Card lead={false} labelledBy="deadline-heading">
-      <h3 id="deadline-heading" className="mb-4 text-lg font-bold">
+      <h3 id="deadline-heading" className="mb-4 flex items-center gap-2 text-lg font-bold">
+        <Calendar className="size-5 text-green-800" />
         {t('result.deadline.heading')}
       </h3>
-      <dl>
+      <dl className="grid grid-cols-2 gap-2.5">
         <Row term={t(result.isOverdue ? 'result.deadline.wasDueBy' : 'result.deadline.dueBy')}>
           {formatDate(result.dueDate)}
-        </Row>
-        <Row term={t('result.deadline.period')}>
-          {t(pluralKey('result.deadline.periodValue', result.agreedDaysUsed), {
-            days: result.agreedDaysUsed,
-            date: formatDate(result.acceptanceDate),
-          })}
         </Row>
         <Row
           term={t(
@@ -201,8 +213,15 @@ export function DeadlineCard({
         >
           {formatDate(result.interestStartDate)}
         </Row>
+        {/* Tiles pair up two per row; the period takes the full row when there's no "days late". */}
+        <Row term={t('result.deadline.period')} wide={!result.isOverdue}>
+          {t(pluralKey('result.deadline.periodValue', result.agreedDaysUsed), {
+            days: result.agreedDaysUsed,
+            date: formatDate(result.acceptanceDate),
+          })}
+        </Row>
         {result.isOverdue && <Row term={t('result.deadline.daysLate')}>{result.daysOverdue}</Row>}
-        <Row term={t('result.deadline.rate')}>
+        <Row term={t('result.deadline.rate')} wide>
           {t('result.deadline.rateValue', {
             annual: formatPercent(rate.annualInterestPct),
             multiplier: rate.multiplier,
@@ -210,7 +229,7 @@ export function DeadlineCard({
           })}
         </Row>
       </dl>
-      <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-stone-700">
+      <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-stone-600 marker:text-green-800">
         {objectionRaised && <li>{t('result.deadline.objectionNote')}</li>}
         {result.interestPeriods.length > 1 && <li>{t('result.deadline.rateChanged')}</li>}
         <li>{t('result.deadline.compounding')}</li>
@@ -240,14 +259,17 @@ export function WhyCard({
   };
   return (
     <Card lead={false} labelledBy="why-heading">
-      <h3 id="why-heading" className="mb-3 text-lg font-bold">
+      <h3 id="why-heading" className="mb-4 flex items-center gap-2 text-lg font-bold">
+        <Scale className="size-5 text-green-800" />
         {t('result.why.heading')}
       </h3>
-      <ul className="space-y-4">
+      <ul className="divide-y divide-stone-200">
         {citations.map((c) => (
-          <li key={c.id} className="border-l-4 border-green-800 pl-3">
-            <p className="font-semibold">{citationLabel(c, tax)}</p>
-            <p className="mt-1 text-stone-700">{explain[c.id]}</p>
+          <li key={c.id} className="py-4 first:pt-0 last:pb-0">
+            <p className="inline-flex rounded-md bg-green-50 px-2 py-0.5 text-sm font-bold text-green-900 ring-1 ring-green-800/15">
+              {citationLabel(c, tax)}
+            </p>
+            <p className="mt-2 text-stone-700">{explain[c.id]}</p>
             <p className="mt-1 flex flex-wrap gap-x-5">
               <Link
                 to={`/how-it-works#${c.id}`}
@@ -286,12 +308,13 @@ export function Warnings({ codes }: { codes: WarningCode[] }) {
   return (
     <section
       aria-labelledby="warnings-heading"
-      className="rounded-2xl border-2 border-stone-900 bg-white p-5 text-stone-900"
+      className="rounded-2xl bg-amber-50 p-5 text-amber-950 ring-1 ring-amber-300 sm:p-6"
     >
-      <h3 id="warnings-heading" className="font-bold">
+      <h3 id="warnings-heading" className="flex items-center gap-2 font-bold">
+        <Alert className="size-5 text-amber-700" />
         {t('result.warningsHeading')}
       </h3>
-      <ul className="mt-2 list-disc space-y-2 pl-5">
+      <ul className="mt-2 list-disc space-y-2 pl-5 marker:text-amber-700">
         {shown.map((c) => (
           <li key={c}>{t(`warnings.${c}`, WARNING_VARS)}</li>
         ))}
@@ -305,12 +328,15 @@ export function Disclaimer({ text = disclaimerText() }: { text?: string }) {
   return (
     <aside
       aria-labelledby="disclaimer-heading"
-      className="rounded-2xl bg-stone-100 p-5 text-sm text-stone-700"
+      className="flex gap-3 rounded-2xl bg-stone-100 p-5 text-sm leading-relaxed text-stone-700"
     >
-      <h3 id="disclaimer-heading" className="mb-1 font-semibold text-stone-900">
-        {t('result.disclaimerHeading')}
-      </h3>
-      <p>{text}</p>
+      <Info className="mt-0.5 size-5 shrink-0 text-stone-500" />
+      <div>
+        <h3 id="disclaimer-heading" className="mb-1 font-semibold text-stone-900">
+          {t('result.disclaimerHeading')}
+        </h3>
+        <p>{text}</p>
+      </div>
     </aside>
   );
 }
@@ -324,7 +350,7 @@ export function NotCoveredCard() {
       <p className="mt-2 text-lg">
         {t('eligibility.mediumNotCovered', { maxDays: legalConfig.paymentRules.maxAgreedDays })}
       </p>
-      <p className="mt-2 text-green-50">{t('result.notCovered.next')}</p>
+      <p className="mt-2 text-green-50/90">{t('result.notCovered.next')}</p>
     </Card>
   );
 }

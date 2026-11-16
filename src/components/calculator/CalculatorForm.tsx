@@ -1,9 +1,10 @@
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { legalConfig } from '../../data';
 import type { CalculationInput } from '../../domain/types';
 import { t } from '../../i18n';
 import { RadioGroup, TextField } from '../form/fields';
+import { ArrowRight } from '../icons';
 import { caretAfterFormat, countSignificant, formatAmountInput } from './amount';
 import {
   BUYER_TYPES,
@@ -13,6 +14,27 @@ import {
   asksTraderQuestion,
   type FormValues,
 } from './formSchema';
+
+/** One numbered step of the form. A heading, not a fieldset: the questions inside have their own. */
+function Step({ n, title, children }: { n: number; title: string; children: ReactNode }) {
+  return (
+    <section
+      aria-labelledby={`step-${n}-title`}
+      className="space-y-7 border-t border-stone-200 pt-7 first-of-type:border-t-0 first-of-type:pt-0"
+    >
+      <h3 id={`step-${n}-title`} className="flex items-center gap-3 text-lg font-bold">
+        <span
+          aria-hidden="true"
+          className="grid size-8 shrink-0 place-items-center rounded-full bg-green-50 text-sm font-bold text-green-800 ring-1 ring-green-800/20"
+        >
+          {n}
+        </span>
+        {title}
+      </h3>
+      {children}
+    </section>
+  );
+}
 
 type Props = {
   form: UseFormReturn<FormValues, unknown, CalculationInput>;
@@ -59,124 +81,131 @@ export function CalculatorForm({ form, asOfDate, onValid, onInvalid }: Props) {
         {t('form.heading')}
       </h2>
 
-      <RadioGroup
-        name="category"
-        legend={t('form.category.label')}
-        help={t('form.category.help')}
-        options={CATEGORIES.map((v) => ({ value: v, label: t(`form.category.${v}`) }))}
-        registration={register('category')}
-        error={errors.category?.message}
-        columns={2}
-      />
-
-      {asksTraderQuestion(category) && (
+      <Step n={1} title={t('form.steps.business')}>
         <RadioGroup
-          name="isTrader"
-          legend={t('form.isTrader.label')}
-          options={yesNo}
-          registration={register('isTrader')}
-          error={errors.isTrader?.message}
+          name="category"
+          legend={t('form.category.label')}
+          help={t('form.category.help')}
+          options={CATEGORIES.map((v) => ({ value: v, label: t(`form.category.${v}`) }))}
+          registration={register('category')}
+          error={errors.category?.message}
           columns={2}
         />
-      )}
 
-      <RadioGroup
-        name="registeredBeforeSupply"
-        legend={t('form.registeredBeforeSupply.label')}
-        options={yesNoNotSure}
-        registration={register('registeredBeforeSupply')}
-        error={errors.registeredBeforeSupply?.message}
-        columns={3}
-      />
-
-      <TextField
-        name="amount"
-        label={t('form.amount.label')}
-        help={t('form.amount.help')}
-        registration={{
-          ...amount,
-          onChange: async (e) => onAmountChange(e as ChangeEvent<HTMLInputElement>),
-        }}
-        error={errors.amount?.message}
-        type="text"
-        inputMode="decimal"
-        autoComplete="off"
-        className="text-xl font-semibold tabular-nums"
-      />
-
-      <TextField
-        name="deliveryDate"
-        label={t('form.deliveryDate.label')}
-        registration={register('deliveryDate')}
-        error={errors.deliveryDate?.message}
-        type="date"
-        max={asOfDate}
-      />
-
-      <div className="space-y-4">
-        <RadioGroup
-          name="objectionRaised"
-          legend={t('form.objection.label', { days: legalConfig.paymentRules.objectionWindowDays })}
-          options={yesNo}
-          registration={register('objectionRaised')}
-          error={errors.objectionRaised?.message}
-          columns={2}
-        />
-        {objectionRaised === 'yes' && (
-          <TextField
-            name="objectionResolvedDate"
-            label={t('form.objectionResolvedDate.label')}
-            registration={register('objectionResolvedDate')}
-            error={errors.objectionResolvedDate?.message}
-            type="date"
-            max={asOfDate}
+        {asksTraderQuestion(category) && (
+          <RadioGroup
+            name="isTrader"
+            legend={t('form.isTrader.label')}
+            options={yesNo}
+            registration={register('isTrader')}
+            error={errors.isTrader?.message}
+            columns={2}
           />
         )}
-      </div>
 
-      <div className="space-y-4">
         <RadioGroup
-          name="hasAgreement"
-          legend={t('form.agreement.label')}
-          options={yesNo}
-          registration={register('hasAgreement')}
-          error={errors.hasAgreement?.message}
-          columns={2}
+          name="registeredBeforeSupply"
+          legend={t('form.registeredBeforeSupply.label')}
+          options={yesNoNotSure}
+          registration={register('registeredBeforeSupply')}
+          error={errors.registeredBeforeSupply?.message}
+          columns={3}
         />
-        {hasAgreement === 'yes' && (
-          <TextField
-            name="agreementDays"
-            label={t('form.agreementDays.label')}
-            registration={register('agreementDays')}
-            error={errors.agreementDays?.message}
-            type="text"
-            inputMode="numeric"
-            maxLength={4}
-            autoComplete="off"
-            className="max-w-32"
+      </Step>
+
+      <Step n={2} title={t('form.steps.invoice')}>
+        <TextField
+          name="amount"
+          label={t('form.amount.label')}
+          help={t('form.amount.help')}
+          registration={{
+            ...amount,
+            onChange: async (e) => onAmountChange(e as ChangeEvent<HTMLInputElement>),
+          }}
+          error={errors.amount?.message}
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          prefix="₹"
+          className="text-xl font-semibold tabular-nums"
+        />
+
+        <TextField
+          name="deliveryDate"
+          label={t('form.deliveryDate.label')}
+          registration={register('deliveryDate')}
+          error={errors.deliveryDate?.message}
+          type="date"
+          max={asOfDate}
+        />
+
+        <div className="space-y-4">
+          <RadioGroup
+            name="objectionRaised"
+            legend={t('form.objection.label', {
+              days: legalConfig.paymentRules.objectionWindowDays,
+            })}
+            options={yesNo}
+            registration={register('objectionRaised')}
+            error={errors.objectionRaised?.message}
+            columns={2}
           />
-        )}
-      </div>
+          {objectionRaised === 'yes' && (
+            <TextField
+              name="objectionResolvedDate"
+              label={t('form.objectionResolvedDate.label')}
+              registration={register('objectionResolvedDate')}
+              error={errors.objectionResolvedDate?.message}
+              type="date"
+              max={asOfDate}
+            />
+          )}
+        </div>
+      </Step>
 
-      <RadioGroup
-        name="buyerType"
-        legend={
-          <>
-            {t('form.buyerType.label')}{' '}
-            <span className="font-normal text-stone-600">({t('common.optional')})</span>
-          </>
-        }
-        help={t('form.buyerType.help')}
-        options={BUYER_TYPES.map((v) => ({ value: v, label: t(`form.buyerType.${v}`) }))}
-        registration={register('buyerType')}
-        error={errors.buyerType?.message}
-      />
+      <Step n={3} title={t('form.steps.terms')}>
+        <div className="space-y-4">
+          <RadioGroup
+            name="hasAgreement"
+            legend={t('form.agreement.label')}
+            options={yesNo}
+            registration={register('hasAgreement')}
+            error={errors.hasAgreement?.message}
+            columns={2}
+          />
+          {hasAgreement === 'yes' && (
+            <TextField
+              name="agreementDays"
+              label={t('form.agreementDays.label')}
+              registration={register('agreementDays')}
+              error={errors.agreementDays?.message}
+              type="text"
+              inputMode="numeric"
+              maxLength={4}
+              autoComplete="off"
+              className="max-w-32"
+            />
+          )}
+        </div>
 
-      <button
-        type="submit"
-        className="min-h-14 w-full rounded-lg bg-green-800 px-5 py-3 text-lg font-semibold text-white hover:bg-green-900 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-green-800"
-      >
+        <RadioGroup
+          name="buyerType"
+          legend={
+            <>
+              {t('form.buyerType.label')}{' '}
+              <span className="font-normal text-stone-600">({t('common.optional')})</span>
+            </>
+          }
+          help={t('form.buyerType.help')}
+          options={BUYER_TYPES.map((v) => ({ value: v, label: t(`form.buyerType.${v}`) }))}
+          registration={register('buyerType')}
+          error={errors.buyerType?.message}
+        />
+      </Step>
+
+      <button type="submit" className="btn-primary">
         {t('form.submit')}
+        <ArrowRight />
       </button>
     </form>
   );

@@ -22,6 +22,7 @@ import { clearBusinessDetails, loadBusinessDetails, saveBusinessDetails } from '
 import { waitlistUrl } from './waitlist';
 import { SrSuffix } from '../components/SrSuffix';
 import { track } from '../analytics';
+import { Alert, ArrowLeft, Copy, Download, FileText } from '../components/icons';
 
 type Props = {
   input: CalculationInput;
@@ -74,10 +75,10 @@ async function copyToClipboard(text: string): Promise<boolean> {
   }
 }
 
-const buttonPrimary =
-  'flex min-h-14 w-full items-center justify-center rounded-lg bg-green-800 px-5 py-3 text-lg font-semibold text-white hover:bg-green-900 disabled:opacity-70 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-green-800';
-const buttonSecondary =
-  'flex min-h-14 w-full items-center justify-center rounded-lg border-2 border-green-800 bg-white px-5 py-3 text-lg font-semibold text-green-800 hover:bg-green-50 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-green-800';
+const buttonPrimary = 'btn-primary';
+const buttonSecondary = 'btn-secondary';
+const callout = 'rounded-2xl bg-amber-50 p-5 text-amber-950 ring-1 ring-amber-300';
+const legendClass = 'mb-5 flex w-full items-center gap-2 text-xl font-extrabold tracking-tight';
 
 export default function LetterFlow({
   input,
@@ -197,43 +198,44 @@ export default function LetterFlow({
   const waitlist = waitlistUrl();
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-2xl space-y-6">
       <button
         type="button"
         onClick={onBack}
-        className="-ml-2 min-h-12 rounded-lg px-2 font-semibold text-green-800 underline underline-offset-4 hover:text-green-900"
+        className="-ml-2 inline-flex min-h-12 items-center gap-2 rounded-lg px-2 font-semibold text-green-800 hover:bg-green-50"
       >
-        <span aria-hidden="true">← </span>
+        <ArrowLeft className="size-4.5" />
         {t('letter.back')}
       </button>
 
-      <header className="space-y-2">
+      <header className="space-y-3">
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="text-3xl font-bold text-stone-900 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800"
+          className="flex items-center gap-3 text-3xl font-extrabold tracking-tight text-stone-900 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800 sm:text-4xl"
         >
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-green-50 text-green-800 ring-1 ring-green-800/15">
+            <FileText className="size-6" />
+          </span>
           {t('letter.heading')}
         </h1>
-        <p className="text-lg text-stone-700">{t('letter.intro')}</p>
+        <p className="text-lg leading-relaxed text-stone-600">{t('letter.intro')}</p>
       </header>
 
       {mode === 'general' && (
-        <p className="rounded-2xl border-2 border-stone-900 bg-white p-4">
+        <p className={callout}>
           {t(`letter.generalNote.${input.category === 'medium' ? 'medium' : 'not_registered'}`, {
             maxDays,
           })}
         </p>
       )}
       {mode === 'legal' && warnings.length > 0 && (
-        <section
-          aria-labelledby="letter-warnings-heading"
-          className="rounded-2xl border-2 border-stone-900 bg-white p-4"
-        >
-          <h2 id="letter-warnings-heading" className="font-bold">
+        <section aria-labelledby="letter-warnings-heading" className={callout}>
+          <h2 id="letter-warnings-heading" className="flex items-center gap-2 font-bold">
+            <Alert className="size-5 text-amber-700" />
             {t('letter.warningsHeading')}
           </h2>
-          <ul className="mt-2 list-disc space-y-1 pl-5">
+          <ul className="mt-2 list-disc space-y-1 pl-5 marker:text-amber-700">
             {warnings.map((w) => (
               <li key={w}>{t(`warnings.${w}`, WARNING_VARS)}</li>
             ))}
@@ -245,7 +247,7 @@ export default function LetterFlow({
         id="letter-form"
         noValidate
         onSubmit={(e) => void handleSubmit(onValid, onInvalid)(e)}
-        className="space-y-8 rounded-2xl border border-stone-200 bg-white p-5 sm:p-6"
+        className="surface space-y-9 p-5 sm:p-7"
       >
         <RadioGroup
           name="language"
@@ -272,10 +274,8 @@ export default function LetterFlow({
           />
         )}
 
-        <fieldset className="space-y-5">
-          <legend className="mb-4 text-xl font-bold text-stone-900">
-            {t('letter.sections.supplier')}
-          </legend>
+        <fieldset className="space-y-5 border-t border-stone-200 pt-7">
+          <legend className={legendClass}>{t('letter.sections.supplier')}</legend>
           <TextField
             name="supplierName"
             label={t('letter.fields.supplierName')}
@@ -362,10 +362,8 @@ export default function LetterFlow({
           />
         </fieldset>
 
-        <fieldset className="space-y-5">
-          <legend className="mb-4 text-xl font-bold text-stone-900">
-            {t('letter.sections.buyer')}
-          </legend>
+        <fieldset className="space-y-5 border-t border-stone-200 pt-7">
+          <legend className={legendClass}>{t('letter.sections.buyer')}</legend>
           <TextField
             name="buyerName"
             label={t('letter.fields.buyerName')}
@@ -390,10 +388,8 @@ export default function LetterFlow({
           />
         </fieldset>
 
-        <fieldset className="space-y-5">
-          <legend className="mb-4 text-xl font-bold text-stone-900">
-            {t('letter.sections.invoice')}
-          </legend>
+        <fieldset className="space-y-5 border-t border-stone-200 pt-7">
+          <legend className={legendClass}>{t('letter.sections.invoice')}</legend>
           <TextField
             name="invoiceNumber"
             label={t('letter.fields.invoiceNumber')}
@@ -413,6 +409,7 @@ export default function LetterFlow({
         </fieldset>
 
         <button type="submit" className={buttonPrimary}>
+          <FileText />
           {t('letter.create')}
         </button>
       </form>
@@ -423,7 +420,7 @@ export default function LetterFlow({
             id="preview-heading"
             ref={previewHeadingRef}
             tabIndex={-1}
-            className="text-2xl font-bold text-stone-900 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800"
+            className="scroll-mt-24 text-2xl font-extrabold tracking-tight text-stone-900 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800"
           >
             {t('letter.preview')}
           </h2>
@@ -436,9 +433,11 @@ export default function LetterFlow({
               disabled={download === 'working'}
               className={buttonPrimary}
             >
+              <Download />
               {download === 'working' ? t('letter.downloading') : t('letter.download')}
             </button>
             <button type="button" onClick={() => void onCopy()} className={buttonSecondary}>
+              <Copy />
               {t('letter.copy')}
             </button>
           </div>
@@ -457,7 +456,7 @@ export default function LetterFlow({
           {download === 'done' && waitlist && (
             <aside
               aria-labelledby="waitlist-heading"
-              className="rounded-2xl bg-green-800 p-5 text-white"
+              className="rounded-2xl bg-gradient-to-br from-green-800 to-green-950 p-6 text-white shadow-lift"
             >
               <h2 id="waitlist-heading" className="text-xl font-bold">
                 {t('waitlist.heading')}
@@ -468,7 +467,7 @@ export default function LetterFlow({
                 onClick={() => track('waitlist_clicked')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 flex min-h-12 items-center justify-center rounded-lg bg-white px-5 py-3 font-semibold text-green-800 hover:bg-green-50 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="mt-4 flex min-h-12 items-center justify-center rounded-xl bg-white px-5 py-3 font-semibold text-green-800 hover:bg-green-50 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 {t('waitlist.link')}
                 <SrSuffix>{t('common.opensNewTab')}</SrSuffix>

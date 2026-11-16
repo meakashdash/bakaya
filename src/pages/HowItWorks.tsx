@@ -36,14 +36,14 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
       title={t('howItWorks.title', { maxDays: rules.maxAgreedDays })}
       intro={t('howItWorks.intro')}
     >
-      <nav
-        aria-labelledby="contents-heading"
-        className="rounded-lg border border-stone-200 bg-white p-4"
-      >
-        <h2 id="contents-heading" className="font-semibold">
+      <nav aria-labelledby="contents-heading" className="surface p-5">
+        <h2
+          id="contents-heading"
+          className="text-sm font-bold tracking-wider text-stone-600 uppercase"
+        >
           {t('howItWorks.contents')}
         </h2>
-        <ul className="mt-2 space-y-1">
+        <ul className="mt-3 grid gap-x-6 gap-y-1 sm:grid-cols-2">
           {SECTIONS.map((id) => (
             <li key={id}>
               <a
@@ -60,19 +60,19 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
       <Section id="who" heading={t('howItWorks.who.heading')}>
         <p>{t('howItWorks.who.p1')}</p>
         <div className="overflow-x-auto">
-          <table className="w-full border border-stone-300 bg-white text-left text-base">
+          <table className="w-full overflow-hidden rounded-xl bg-white text-left text-base shadow-xs ring-1 ring-stone-200">
             <caption className="mb-2 text-left text-sm text-stone-700">
               {t('howItWorks.who.tableCaption', { date: formatDate(limits.effectiveFrom) })}
             </caption>
             <thead>
-              <tr className="border-b border-stone-300 bg-stone-100">
-                <th scope="col" className="p-2">
+              <tr className="border-b border-stone-200 bg-stone-100 text-sm text-stone-700">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.who.colCategory')}
                 </th>
-                <th scope="col" className="p-2">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.who.colInvestment')}
                 </th>
-                <th scope="col" className="p-2">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.who.colTurnover')}
                 </th>
               </tr>
@@ -80,13 +80,13 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
             <tbody>
               {(['micro', 'small', 'medium'] as const).map((c) => (
                 <tr key={c} className="border-b border-stone-200 last:border-b-0">
-                  <th scope="row" className="p-2 font-semibold">
+                  <th scope="row" className="px-3 py-2.5 font-semibold">
                     {t(`howItWorks.who.${c}`)}
                   </th>
-                  <td className="p-2 tabular-nums">
+                  <td className="px-3 py-2.5 tabular-nums">
                     {t('howItWorks.who.crore', { amount: formatCrore(limits[c].investmentCr) })}
                   </td>
-                  <td className="p-2 tabular-nums">
+                  <td className="px-3 py-2.5 tabular-nums">
                     {t('howItWorks.who.crore', { amount: formatCrore(limits[c].turnoverCr) })}
                   </td>
                 </tr>
@@ -111,7 +111,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
           <li>{t('howItWorks.deadline.agreement', { maxDays: rules.maxAgreedDays })}</li>
         </ul>
         <p>{t('howItWorks.deadline.objection', { objectionDays: rules.objectionWindowDays })}</p>
-        <p className="rounded-lg border-l-4 border-green-800 bg-green-50 p-4">
+        <p className="rounded-xl bg-green-50 p-4 ring-1 ring-green-800/15">
           {t('howItWorks.deadline.example', {
             acceptance: formatDate(EXAMPLE_ACCEPTANCE),
             maxDays: rules.maxAgreedDays,
@@ -200,20 +200,20 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
       <Section id="rates" heading={t('howItWorks.rates.heading')}>
         <p>{t('howItWorks.rates.p1', { date: formatDate(bankRates.lastReviewed) })}</p>
         <div className="overflow-x-auto">
-          <table className="w-full border border-stone-300 bg-white text-left text-base">
+          <table className="w-full overflow-hidden rounded-xl bg-white text-left text-base shadow-xs ring-1 ring-stone-200">
             <caption className="sr-only">{t('howItWorks.rates.caption')}</caption>
             <thead>
-              <tr className="border-b border-stone-300 bg-stone-100">
-                <th scope="col" className="p-2">
+              <tr className="border-b border-stone-200 bg-stone-100 text-sm text-stone-700">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.rates.colFrom')}
                 </th>
-                <th scope="col" className="p-2">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.rates.colBank')}
                 </th>
-                <th scope="col" className="p-2">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.rates.colInterest', { multiplier: m })}
                 </th>
-                <th scope="col" className="p-2">
+                <th scope="col" className="px-3 py-2.5">
                   {t('howItWorks.rates.colSource')}
                 </th>
               </tr>
@@ -221,14 +221,14 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
             <tbody>
               {[...bankRates.rates].reverse().map((r) => (
                 <tr key={r.effectiveFrom} className="border-b border-stone-200 last:border-b-0">
-                  <th scope="row" className="p-2 font-normal whitespace-nowrap">
+                  <th scope="row" className="px-3 py-2.5 font-normal whitespace-nowrap">
                     {formatDate(r.effectiveFrom)}
                   </th>
-                  <td className="p-2 tabular-nums">{formatPercent(r.bankRatePct)}</td>
-                  <td className="p-2 tabular-nums">
+                  <td className="px-3 py-2.5 tabular-nums">{formatPercent(r.bankRatePct)}</td>
+                  <td className="px-3 py-2.5 tabular-nums">
                     {formatPercent(annualInterestPct(r.bankRatePct, m))}
                   </td>
-                  <td className="p-2">
+                  <td className="px-3 py-2.5">
                     {r.source ? (
                       <ExternalLink href={r.source}>
                         {t('howItWorks.rates.sourceLink')}

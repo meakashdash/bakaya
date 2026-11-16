@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { WithEmail } from './components/Contact';
 import { Footer } from './components/Footer';
+import { Globe, LogoMark } from './components/icons';
 import { Link } from './components/Link';
 import { setLocale, t } from './i18n';
 import Home from './pages/Home';
@@ -55,19 +56,20 @@ export default function App() {
       >
         {t('app.skipToMain')}
       </a>
-      <header className="border-b border-stone-200 bg-white">
-        <div className="mx-auto flex max-w-xl items-center justify-between px-4">
+      <header className="sticky top-0 z-20 border-b border-stone-200/80 bg-white/85 backdrop-blur-md supports-[backdrop-filter]:bg-white/75">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link
             to="/"
             aria-label={t('app.homeLink')}
-            className="inline-flex min-h-12 items-center text-lg font-bold tracking-tight text-green-800"
+            className="inline-flex min-h-14 shrink-0 items-center gap-2 text-xl font-extrabold tracking-tight text-stone-900"
           >
+            <LogoMark className="size-8" />
             {t('app.name')}
           </Link>
-          <div className="flex items-center gap-x-4">
+          <div className="flex items-center gap-x-1 sm:gap-x-3">
             <Link
               to="/how-it-works"
-              className="inline-flex min-h-12 items-center font-semibold text-green-800 underline underline-offset-2 hover:text-green-900"
+              className="inline-flex min-h-12 items-center rounded-lg px-2 text-[15px] leading-tight font-semibold text-stone-700 hover:bg-stone-100 hover:text-stone-900 sm:px-3"
             >
               {t('nav.howItWorks')}
             </Link>
@@ -78,22 +80,30 @@ export default function App() {
               lang={otherLocale}
               hrefLang={otherLocale}
               aria-label={t('nav.switchLanguageLabel')}
-              className="inline-flex min-h-12 items-center rounded-md border border-green-800 px-3 font-semibold text-green-800 hover:bg-green-50"
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-green-50 px-3.5 text-[15px] font-semibold text-green-800 ring-1 ring-green-800/25 transition-colors hover:bg-green-100"
             >
+              <Globe className="size-4" />
               {t('nav.switchLanguage')}
             </Link>
           </div>
         </div>
       </header>
       {isBeta && (
-        <p className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm text-amber-950">
+        <p className="border-b border-amber-200/80 bg-amber-50 px-4 py-2.5 text-center text-sm leading-snug text-amber-950">
           <WithEmail k="app.beta" />
         </p>
+      )}
+      {/* A soft green wash behind the hero. Decorative. */}
+      {route === 'home' && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[44rem] bg-[radial-gradient(60rem_30rem_at_20%_-5%,var(--color-green-100),transparent_70%),radial-gradient(40rem_24rem_at_95%_10%,var(--color-emerald-50),transparent_70%)]"
+        />
       )}
       <main
         id="main"
         tabIndex={-1}
-        className="mx-auto max-w-xl px-4 py-8 focus:outline-none sm:py-12"
+        className="mx-auto max-w-6xl px-4 pt-6 pb-12 focus:outline-none sm:px-6 sm:pt-10"
       >
         {/* Home stays mounted while other pages are open, so a result isn't lost. */}
         <div hidden={route !== 'home'}>

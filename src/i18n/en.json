@@ -14,7 +14,19 @@
   },
   "home": {
     "title": "Owed money for more than {{maxDays}} days? The law is on your side.",
-    "subtitle": "See what your late buyer owes you in interest, and how much extra tax they pay if they don't clear it by 31 March. Free. Nothing leaves your phone."
+    "subtitle": "See what your late buyer owes you in interest, and how much extra tax they pay if they don't clear it by 31 March. Free. Nothing leaves your phone.",
+    "eyebrow": "For micro and small businesses",
+    "trust": {
+      "free": "Free to use",
+      "noSignup": "No sign-up",
+      "private": "Data stays on your device"
+    },
+    "how": {
+      "heading": "In three steps",
+      "s1": "Enter the invoice details",
+      "s2": "See the interest and the buyer’s extra tax",
+      "s3": "Send a polite reminder letter"
+    }
   },
   "form": {
     "heading": "Your invoice",
@@ -58,7 +70,12 @@
       "firm_llp": "Firm or LLP",
       "not_sure": "Not sure"
     },
-    "submit": "Check what they owe"
+    "submit": "Check what they owe",
+    "steps": {
+      "business": "Your business",
+      "invoice": "The invoice",
+      "terms": "Payment terms"
+    }
   },
   "result": {
     "heading": "What your buyer owes",
@@ -285,7 +302,8 @@
   "footer": {
     "ratesReviewed": "Rates last reviewed: {{date}}",
     "info": "Information only, not legal or tax advice.",
-    "contact": "Questions or corrections: {{email}}"
+    "contact": "Questions or corrections: {{email}}",
+    "tagline": "Helping India’s small suppliers get paid on time."
   },
   "content": {
     "sources": "Sources",

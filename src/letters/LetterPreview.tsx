@@ -55,7 +55,7 @@ export function LetterPreview({ letter }: { letter: Letter }) {
   const [name, ...rest] = letter.letterhead;
   const subjectPrefix = tIn(letter.locale, 'letter.subjectPrefix');
   return (
-    <article className="rounded-lg border border-stone-300 bg-white p-5 text-[15px] leading-relaxed text-stone-900 shadow-sm break-words">
+    <article className="rounded-sm bg-white p-6 text-[15px] leading-relaxed text-stone-900 break-words shadow-[0_1px_2px_rgb(0_0_0/0.06),0_12px_32px_-12px_rgb(0_0_0/0.25)] ring-1 ring-stone-200 sm:p-10">
       <header className="mb-5 border-b-2 border-green-800 pb-3">
         <p className="text-xl font-bold text-green-800">{name}</p>
         {rest.map((line, i) => (

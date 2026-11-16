@@ -1,22 +1,54 @@
 @import 'tailwindcss';
 
+@theme {
+  /* System fonts only: fast, no network request, and Android/iOS ship good Devanagari. */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans',
+    'Noto Sans Devanagari', 'Helvetica Neue', Arial, sans-serif;
+  --shadow-card: 0 1px 2px rgb(28 25 23 / 0.04), 0 4px 16px -4px rgb(28 25 23 / 0.08);
+  --shadow-lift: 0 1px 2px rgb(20 83 45 / 0.12), 0 8px 24px -8px rgb(20 83 45 / 0.45);
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem; /* the sticky header */
   }
   body {
-    @apply bg-stone-50 text-stone-900 antialiased;
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      'Noto Sans',
-      sans-serif;
+    @apply bg-stone-50 font-sans text-stone-900 antialiased;
+    text-rendering: optimizeLegibility;
   }
   /* A visible focus ring everywhere, even on elements without their own focus style. */
   :focus-visible {
     outline: 3px solid var(--color-green-800);
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* White surface used for cards and form panels. */
+  .surface {
+    @apply rounded-2xl bg-white shadow-card ring-1 ring-stone-200/80;
+  }
+
+  /* Buttons. Big touch targets (56px) for phones. */
+  .btn-primary {
+    @apply inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-green-800 px-5 py-3 text-lg font-semibold text-white shadow-lift transition-colors hover:bg-green-900 disabled:opacity-70;
+  }
+  .btn-secondary {
+    @apply inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-lg font-semibold text-green-800 ring-2 ring-green-800 transition-colors ring-inset hover:bg-green-50;
+  }
+
+  /* A custom radio dot that keeps the native input (keyboard, screen readers, forms). */
+  .radio-dot {
+    @apply size-5 shrink-0 cursor-pointer appearance-none rounded-full border-2 border-stone-400 bg-white transition-[border-color,border-width] checked:border-[6px] checked:border-green-800 focus-visible:outline-none;
+  }
+  .check-box {
+    @apply size-6 shrink-0 cursor-pointer accent-green-800;
+  }
+
+  /* Text inputs. */
+  .field {
+    @apply block min-h-13 w-full rounded-xl border bg-white px-3.5 py-2.5 text-lg text-stone-900 shadow-xs transition-colors placeholder:text-stone-500 hover:border-stone-400 focus-visible:border-green-800 focus-visible:outline-3 focus-visible:outline-offset-0 focus-visible:outline-green-800/30;
   }
 }

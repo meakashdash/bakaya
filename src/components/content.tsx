@@ -16,15 +16,15 @@ export function ContentPage({
   children: ReactNode;
 }) {
   return (
-    <article className="space-y-10 text-stone-900">
-      <header className="space-y-3 pt-2">
+    <article className="mx-auto max-w-3xl space-y-10 text-stone-900">
+      <header className="space-y-4 border-b border-stone-200 pt-2 pb-8">
         <h1
           tabIndex={-1}
-          className="text-3xl leading-tight font-bold text-balance focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800 sm:text-4xl"
+          className="text-[2rem] leading-tight font-extrabold tracking-tight text-balance focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800 sm:text-5xl"
         >
           {title}
         </h1>
-        <p className="text-lg text-stone-700">{intro}</p>
+        <p className="text-lg leading-relaxed text-stone-600 sm:text-xl">{intro}</p>
       </header>
       {children}
     </article>
@@ -46,9 +46,9 @@ export function Section({
       id={id}
       aria-labelledby={headingId}
       tabIndex={id ? -1 : undefined}
-      className="scroll-mt-4 space-y-4 text-lg leading-relaxed focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800"
+      className="scroll-mt-24 space-y-4 text-lg leading-relaxed text-stone-800 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-green-800"
     >
-      <h2 id={headingId} className="text-2xl font-bold">
+      <h2 id={headingId} className="text-2xl font-extrabold tracking-tight text-stone-900">
         {heading}
       </h2>
       {children}
@@ -75,9 +75,11 @@ export function Sources({ topic }: { topic: Topic }) {
   const sources = legalConfig.sources.filter((s) => s.topics.includes(topic));
   if (sources.length === 0) return null;
   return (
-    <div className="rounded-lg bg-stone-100 p-4 text-base">
-      <p className="font-semibold">{t('content.sources')}</p>
-      <ul className="mt-1 list-disc space-y-1 pl-5">
+    <div className="rounded-xl bg-white p-4 text-base shadow-xs ring-1 ring-stone-200">
+      <p className="text-sm font-bold tracking-wider text-stone-600 uppercase">
+        {t('content.sources')}
+      </p>
+      <ul className="mt-2 list-disc space-y-1 pl-5 marker:text-green-800">
         {sources.map((s) => (
           <li key={s.id}>
             <ExternalLink href={s.url}>{s.label}</ExternalLink>

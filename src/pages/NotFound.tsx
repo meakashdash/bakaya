@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <ContentPage title={t('notFound.title')} intro={t('notFound.body')}>
       <p>
-        <Link to="/" className="text-lg font-semibold text-green-800 underline underline-offset-2">
+        <Link to="/" className="btn-primary sm:w-auto">
           {t('notFound.link')}
         </Link>
       </p>
