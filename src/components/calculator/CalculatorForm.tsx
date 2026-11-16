@@ -21,13 +21,13 @@ type Props = {
   onInvalid: (errors: Partial<Record<string, unknown>>) => void;
 };
 
-const yesNo = YES_NO.map((v) => ({ value: v, label: t(`common.${v}`) }));
-const yesNoNotSure = YES_NO_NOT_SURE.map((v) => ({
-  value: v,
-  label: t(v === 'not_sure' ? 'common.notSure' : `common.${v}`),
-}));
-
 export function CalculatorForm({ form, asOfDate, onValid, onInvalid }: Props) {
+  // Built per render, so the labels follow the page language.
+  const yesNo = YES_NO.map((v) => ({ value: v, label: t(`common.${v}`) }));
+  const yesNoNotSure = YES_NO_NOT_SURE.map((v) => ({
+    value: v,
+    label: t(v === 'not_sure' ? 'common.notSure' : `common.${v}`),
+  }));
   const {
     register,
     handleSubmit,

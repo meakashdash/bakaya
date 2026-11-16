@@ -7,7 +7,7 @@ import { Checkbox, RadioGroup, TextArea, TextField } from '../components/form/fi
 import { WARNING_VARS } from '../components/result/warningVars';
 import { legalConfig } from '../data';
 import type { CalculationInput, CalculationResult } from '../domain/types';
-import { t } from '../i18n';
+import { getLocale, LOCALES, t, tIn } from '../i18n';
 import { LETTER_WARNINGS, buildLetter, letterFileName, type Letter } from './buildLetter';
 import {
   TONES,
@@ -90,7 +90,9 @@ export default function LetterFlow({
   const mode = letterMode(input, result);
   const udyam = udyamFieldFor(input.category);
   const schema = useMemo(() => makeLetterSchema(asOfDate, udyam), [asOfDate, udyam]);
-  const [defaults] = useState(() => draft ?? initialValues());
+  // A new letter starts in the page language; the supplier can switch it (e.g. an English
+  // letter for a buyer's accounts team, from the Hindi page).
+  const [defaults] = useState(() => draft ?? { ...initialValues(), language: getLocale() });
   const form = useForm<LetterFormValues, unknown, LetterDetails>({
     resolver: zodResolver(schema),
     defaultValues: defaults,
@@ -144,7 +146,14 @@ export default function LetterFlow({
     if (details.remember) saveBusinessDetails(details);
     else clearBusinessDetails();
     setCreated({
-      letter: buildLetter({ tone: details.tone, details, input, result, asOfDate }),
+      letter: buildLetter({
+        tone: details.tone,
+        details,
+        input,
+        result,
+        asOfDate,
+        locale: details.language,
+      }),
       details,
     });
     setDownload('idle');
@@ -163,9 +172,11 @@ export default function LetterFlow({
     setDownload('working');
     try {
       const { renderLetterPdf } = await loadPdf();
-      const title = t('letter.pdfTitle', { invoice: created.details.invoiceNumber });
+      const title = tIn(created.letter.locale, 'letter.pdfTitle', {
+        invoice: created.details.invoiceNumber,
+      });
       const blob = await renderLetterPdf(created.letter, title);
-      triggerDownload(blob, letterFileName(created.details.invoiceNumber));
+      triggerDownload(blob, letterFileName(created.details.invoiceNumber, created.letter.locale));
       setDownload('done');
       track('letter_downloaded');
     } catch {
@@ -236,6 +247,17 @@ export default function LetterFlow({
         onSubmit={(e) => void handleSubmit(onValid, onInvalid)(e)}
         className="space-y-8 rounded-2xl border border-stone-200 bg-white p-5 sm:p-6"
       >
+        <RadioGroup
+          name="language"
+          legend={t('letter.language.label')}
+          options={LOCALES.map((l) => ({
+            value: l,
+            label: t(`letter.language.${l}`),
+          }))}
+          registration={register('language')}
+          error={errors.language?.message}
+        />
+
         {mode === 'legal' && (
           <RadioGroup
             name="tone"

@@ -1,6 +1,5 @@
 import { bankRates } from '../data';
-import { formatDisplayDate } from '../domain/dates';
-import { t } from '../i18n';
+import { formatDate, t } from '../i18n';
 import { WithEmail } from './Contact';
 import { Link } from './Link';
 
@@ -40,7 +39,7 @@ export function Footer() {
             to="/how-it-works#rates"
             className="underline underline-offset-2 hover:text-stone-900"
           >
-            {t('footer.ratesReviewed', { date: formatDisplayDate(bankRates.lastReviewed) })}
+            {t('footer.ratesReviewed', { date: formatDate(bankRates.lastReviewed) })}
           </Link>
         </p>
         <p>

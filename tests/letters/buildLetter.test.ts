@@ -12,7 +12,14 @@ function letterFor(
   asOf = '2027-03-31',
   details = DETAILS,
 ) {
-  return buildLetter({ tone, details, input, result: calculate(input, asOf), asOfDate: asOf });
+  return buildLetter({
+    tone,
+    details,
+    input,
+    result: calculate(input, asOf),
+    asOfDate: asOf,
+    locale: 'en',
+  });
 }
 
 /** The letter body without the disclaimer (which names the Acts on purpose). */
@@ -179,7 +186,7 @@ describe('content rules', () => {
 
   it('every template uses only variables we provide', () => {
     for (const tone of TONES) {
-      const names = [...TEMPLATES[tone].matchAll(/\{\{[#/]?(\w+)\}\}/g)].map((m) => m[1]);
+      const names = [...TEMPLATES.en[tone].matchAll(/\{\{[#/]?(\w+)\}\}/g)].map((m) => m[1]);
       expect(names.length).toBeGreaterThan(5);
     }
   });
@@ -187,9 +194,9 @@ describe('content rules', () => {
 
 describe('file name', () => {
   it('is safe for any invoice number', () => {
-    expect(letterFileName('INV-104')).toBe('reminder-letter-INV-104.pdf');
-    expect(letterFileName('INV/104, INV/105')).toBe('reminder-letter-INV-104-INV-105.pdf');
-    expect(letterFileName('///')).toBe('reminder-letter.pdf');
+    expect(letterFileName('INV-104', 'en')).toBe('reminder-letter-INV-104.pdf');
+    expect(letterFileName('INV/104, INV/105', 'en')).toBe('reminder-letter-INV-104-INV-105.pdf');
+    expect(letterFileName('///', 'en')).toBe('reminder-letter.pdf');
   });
 });
 
@@ -208,7 +215,7 @@ describe('review fixes', () => {
   it('the interest multiplier comes from legal-config, not the template text', () => {
     const m = legalConfig.paymentRules.interestMultiplier;
     for (const tone of ['friendly', 'firm'] as const) {
-      expect(TEMPLATES[tone]).not.toMatch(/three times/);
+      expect(TEMPLATES.en[tone]).not.toMatch(/three times/);
       expect(bodyText(letterFor(tone))).toContain(`at ${m} times the RBI bank rate`);
     }
   });

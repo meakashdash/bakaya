@@ -22,6 +22,7 @@ function letter(tone: Tone): Letter {
     input: TC1_INPUT,
     result: calculate(TC1_INPUT, asOf),
     asOfDate: asOf,
+    locale: 'en',
   });
 }
 

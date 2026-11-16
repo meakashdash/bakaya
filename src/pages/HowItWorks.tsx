@@ -3,9 +3,10 @@
 import { ContentPage, ExternalLink, Section, Sources } from '../components/content';
 import { Disclaimer } from '../components/result/cards';
 import { bankRates, legalConfig, taxRates } from '../data';
-import { dueDate, formatDisplayDate, interestStartDate } from '../domain/dates';
+import { dueDate, interestStartDate } from '../domain/dates';
 import { annualInterestPct, bankRateOn } from '../domain/interest';
-import { formatPercent, t } from '../i18n';
+import { formatDate, formatPercent, t } from '../i18n';
+import { msmedSection, portalName, taxLaw } from '../i18n/legal';
 import { SrSuffix } from '../components/SrSuffix';
 
 /** The worked example from LEGAL_RULES.md §3 (acceptance 10 Jan 2027, maximum agreed days). */
@@ -61,7 +62,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
         <div className="overflow-x-auto">
           <table className="w-full border border-stone-300 bg-white text-left text-base">
             <caption className="mb-2 text-left text-sm text-stone-700">
-              {t('howItWorks.who.tableCaption', { date: formatDisplayDate(limits.effectiveFrom) })}
+              {t('howItWorks.who.tableCaption', { date: formatDate(limits.effectiveFrom) })}
             </caption>
             <thead>
               <tr className="border-b border-stone-300 bg-stone-100">
@@ -112,14 +113,14 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
         <p>{t('howItWorks.deadline.objection', { objectionDays: rules.objectionWindowDays })}</p>
         <p className="rounded-lg border-l-4 border-green-800 bg-green-50 p-4">
           {t('howItWorks.deadline.example', {
-            acceptance: formatDisplayDate(EXAMPLE_ACCEPTANCE),
+            acceptance: formatDate(EXAMPLE_ACCEPTANCE),
             maxDays: rules.maxAgreedDays,
-            due: formatDisplayDate(example.dueDate),
-            interestStart: formatDisplayDate(interestStartDate(example.dueDate)),
+            due: formatDate(example.dueDate),
+            interestStart: formatDate(interestStartDate(example.dueDate)),
           })}
         </p>
         <p className="text-base text-stone-700">{t('howItWorks.deadline.counting')}</p>
-        <p className="text-base text-stone-700">{legalConfig.msmedSections.deadline.label}</p>
+        <p className="text-base text-stone-700">{msmedSection('deadline').label}</p>
         <Sources topic="deadline" />
       </Section>
 
@@ -137,10 +138,10 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
         <p>{t('howItWorks.interest.noContract')}</p>
         <p>
           {t('howItWorks.interest.notDeductible', {
-            section: legalConfig.msmedSections.interestNotDeductible.label,
+            section: msmedSection('interestNotDeductible').label,
           })}
         </p>
-        <p className="text-base text-stone-700">{legalConfig.msmedSections.interest.label}</p>
+        <p className="text-base text-stone-700">{msmedSection('interest').label}</p>
         <Sources topic="interest" />
       </Section>
 
@@ -156,13 +157,11 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
                 ? t('howItWorks.tax.lawRange', {
                     from: s.fromTaxYear,
                     to: s.toTaxYear,
-                    section: s.section,
-                    act: s.act,
+                    ...taxLaw(s),
                   })
                 : t('howItWorks.tax.lawOpen', {
                     from: s.fromTaxYear,
-                    section: s.section,
-                    act: s.act,
+                    ...taxLaw(s),
                   })}
             </li>
           ))}
@@ -182,8 +181,8 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
       <Section id="complaint" heading={t('howItWorks.complaint.heading')}>
         <p>
           {t('howItWorks.complaint.p1', {
-            portal: portal.name,
-            since: formatDisplayDate(portal.onlyRouteSince),
+            portal: portalName(),
+            since: formatDate(portal.onlyRouteSince),
           })}
         </p>
         <p>{t('howItWorks.complaint.p2')}</p>
@@ -191,7 +190,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
         {/^https:\/\//.test(portal.url) && (
           <p>
             <ExternalLink href={portal.url}>
-              {t('howItWorks.complaint.link', { portal: portal.name })}
+              {t('howItWorks.complaint.link', { portal: portalName() })}
             </ExternalLink>
           </p>
         )}
@@ -199,7 +198,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
       </Section>
 
       <Section id="rates" heading={t('howItWorks.rates.heading')}>
-        <p>{t('howItWorks.rates.p1', { date: formatDisplayDate(bankRates.lastReviewed) })}</p>
+        <p>{t('howItWorks.rates.p1', { date: formatDate(bankRates.lastReviewed) })}</p>
         <div className="overflow-x-auto">
           <table className="w-full border border-stone-300 bg-white text-left text-base">
             <caption className="sr-only">{t('howItWorks.rates.caption')}</caption>
@@ -223,7 +222,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
               {[...bankRates.rates].reverse().map((r) => (
                 <tr key={r.effectiveFrom} className="border-b border-stone-200 last:border-b-0">
                   <th scope="row" className="p-2 font-normal whitespace-nowrap">
-                    {formatDisplayDate(r.effectiveFrom)}
+                    {formatDate(r.effectiveFrom)}
                   </th>
                   <td className="p-2 tabular-nums">{formatPercent(r.bankRatePct)}</td>
                   <td className="p-2 tabular-nums">
@@ -235,7 +234,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
                         {t('howItWorks.rates.sourceLink')}
                         <SrSuffix>
                           {t('howItWorks.rates.sourceLinkFor', {
-                            date: formatDisplayDate(r.effectiveFrom),
+                            date: formatDate(r.effectiveFrom),
                           })}
                         </SrSuffix>
                       </ExternalLink>
@@ -261,7 +260,7 @@ export default function HowItWorks({ asOfDate }: { asOfDate: string }) {
         </ul>
       </Section>
 
-      <Disclaimer text={legalConfig.disclaimer} />
+      <Disclaimer />
     </ContentPage>
   );
 }

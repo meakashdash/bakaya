@@ -47,7 +47,7 @@ src/
   letters/           # letter text builders + PDF document components
   components/        # UI
   pages/             # Home (calculator), Result, About, Privacy, Terms
-  i18n/              # en.json now; hi.json later. All UI strings go here
+  i18n/              # en.json and hi.json (same keys). All UI strings go here
 tests/
 data/                # bank-rates.json, tax-rates.json, legal-config.json
 docs/

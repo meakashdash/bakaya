@@ -15,6 +15,7 @@ export const TC1_INPUT: CalculationInput = {
 
 export const DETAILS: LetterDetails = {
   tone: 'friendly',
+  language: 'en',
   supplierName: 'Shakti Fabricators',
   supplierAddress: 'Plot 12, MIDC Bhosari\nPune 411026',
   udyamNumber: 'UDYAM-MH-26-0123456',

@@ -6,6 +6,7 @@
 - [ ] CA confirms tax rates in data/tax-rates.json under the Income-tax Act 2025
 - [ ] CA confirms the trader and "registered before supply" warnings
 - [ ] CA reviews all three letter templates
+- [ ] A native Hindi speaker (ideally the CA) reviews src/i18n/hi.json and templates/hi/*.md
 - [ ] All entries in data/bank-rates.json marked verified against RBI press releases
 - [ ] Official MSME ODR portal URL added to data/legal-config.json
 - [ ] Check whether the MSME Development (Amendment) Act 2026 has been notified; if yes, update LEGAL_RULES.md

@@ -3,13 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { WithEmail } from './components/Contact';
 import { Footer } from './components/Footer';
 import { Link } from './components/Link';
-import { t } from './i18n';
+import { setLocale, t } from './i18n';
 import Home from './pages/Home';
 import HowItWorks from './pages/HowItWorks';
 import NotFound from './pages/NotFound';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
-import { routeFor, useLocation } from './router';
+import { localeFor, routeFor, useLocation } from './router';
 import { pageMeta } from './seo/meta';
 import { isBeta } from './site';
 
@@ -20,10 +20,19 @@ export default function App() {
   const [asOfDate] = useState(localToday);
   const { pathname, hash } = useLocation();
   const route = routeFor(pathname);
+  // The language comes from the URL (/hi/... is Hindi). Set it before any child renders,
+  // so every t() call in this render uses it.
+  const locale = localeFor(pathname);
+  setLocale(locale);
+  const otherLocale = locale === 'hi' ? 'en' : 'hi';
   const firstRender = useRef(true);
 
   // Title per page, and after in-app navigation move focus to the new page (or #section),
   // so keyboard and screen-reader users land at the start of what they asked for.
+  useEffect(() => {
+    document.documentElement.lang = `${locale}-IN`;
+  }, [locale]);
+
   useEffect(() => {
     document.title = pageMeta(route).title;
     if (firstRender.current) {
@@ -36,7 +45,7 @@ export default function App() {
         (h) => !h.closest('[hidden]'),
       );
     target?.focus();
-  }, [route, hash]);
+  }, [route, hash, locale]);
 
   return (
     <>
@@ -55,12 +64,25 @@ export default function App() {
           >
             {t('app.name')}
           </Link>
-          <Link
-            to="/how-it-works"
-            className="inline-flex min-h-12 items-center font-semibold text-green-800 underline underline-offset-2 hover:text-green-900"
-          >
-            {t('nav.howItWorks')}
-          </Link>
+          <div className="flex items-center gap-x-4">
+            <Link
+              to="/how-it-works"
+              className="inline-flex min-h-12 items-center font-semibold text-green-800 underline underline-offset-2 hover:text-green-900"
+            >
+              {t('nav.howItWorks')}
+            </Link>
+            {/* The same page in the other language. Named in that language, as is the convention. */}
+            <Link
+              to={`${pathname}${hash ? `#${hash}` : ''}`}
+              locale={otherLocale}
+              lang={otherLocale}
+              hrefLang={otherLocale}
+              aria-label={t('nav.switchLanguageLabel')}
+              className="inline-flex min-h-12 items-center rounded-md border border-green-800 px-3 font-semibold text-green-800 hover:bg-green-50"
+            >
+              {t('nav.switchLanguage')}
+            </Link>
+          </div>
         </div>
       </header>
       {isBeta && (

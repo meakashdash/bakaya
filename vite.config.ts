@@ -3,7 +3,15 @@ import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { ROUTES } from './src/seo/routes';
-import { headTags, robotsTxt, sitemapXml, withHeadTags } from './src/seo/meta';
+import {
+  headTags,
+  pageFile,
+  robotsTxt,
+  sitemapXml,
+  withHeadTags,
+  withHtmlLang,
+} from './src/seo/meta';
+import { LOCALES } from './src/i18n';
 import { beaconTag } from './src/seo/beacon';
 
 /**
@@ -32,13 +40,19 @@ function seo(siteUrl: string, analyticsToken: string | undefined): Plugin {
         const index = bundle['index.html'];
         if (!index || index.type !== 'asset') return;
         const html = String(index.source);
-        for (const route of ROUTES) {
-          if (route.key === 'home') continue;
-          this.emitFile({
-            type: 'asset',
-            fileName: route.file,
-            source: withHeadTags(html, headTags(route.key, siteUrl)),
-          });
+        // English pages at /, /privacy, ...; Hindi pages at /hi, /hi/privacy, ...
+        for (const locale of LOCALES) {
+          for (const route of ROUTES) {
+            if (route.key === 'home' && locale === 'en') continue;
+            this.emitFile({
+              type: 'asset',
+              fileName: pageFile(route.file, locale),
+              source: withHtmlLang(
+                withHeadTags(html, headTags(route.key, siteUrl, locale)),
+                locale,
+              ),
+            });
+          }
         }
         this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: sitemapXml(siteUrl) });
         this.emitFile({ type: 'asset', fileName: 'robots.txt', source: robotsTxt(siteUrl) });

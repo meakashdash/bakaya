@@ -1,7 +1,9 @@
 // Page titles, descriptions and Open Graph tags. Used at runtime (document.title) and at build
 // time (static HTML per page, sitemap.xml, robots.txt). Legal numbers come from /data.
 import { bankRates, legalConfig } from '../data';
-import { t } from '../i18n';
+import { getLocale, isLocale, LOCALES, tIn, type Locale } from '../i18n';
+import { msmedSection, taxLaw } from '../i18n/legal';
+import { localePath } from '../router';
 import { ROUTES, type RouteKey } from './routes';
 
 export const OG_IMAGE = { path: '/og-image.png', width: 1200, height: 630 };
@@ -9,20 +11,32 @@ export const OG_IMAGE = { path: '/og-image.png', width: 1200, height: 630 };
 const currentTaxSection =
   legalConfig.taxSections.find((s) => s.toTaxYear === null) ?? legalConfig.taxSections[0];
 
-/** Placeholder values for meta copy in en.json. */
-export const META_VARS = {
+/** Placeholder values for meta copy in en.json / hi.json. */
+export const metaVars = (locale: Locale) => ({
   maxDays: legalConfig.paymentRules.maxAgreedDays,
   multiplier: legalConfig.paymentRules.interestMultiplier,
-  interestSection: legalConfig.msmedSections.interest.label,
-  taxSection: currentTaxSection?.section ?? '',
-};
+  interestSection: msmedSection('interest', locale).label,
+  taxSection: currentTaxSection ? taxLaw(currentTaxSection, locale).section : '',
+});
+export const META_VARS = metaVars('en');
 
-export function pageMeta(key: RouteKey | 'notFound'): { title: string; description: string } {
+const OG_LOCALE: Record<Locale, string> = { en: 'en_IN', hi: 'hi_IN' };
+
+/** Title and description. `locale` defaults to the current page language. */
+export function pageMeta(
+  key: RouteKey | 'notFound',
+  locale?: unknown,
+): { title: string; description: string } {
+  const l = isLocale(locale) ? locale : getLocale();
+  const vars = metaVars(l);
   return {
-    title: t(`meta.${key}.title`, META_VARS),
-    description: t(`meta.${key}.description`, META_VARS),
+    title: tIn(l, `meta.${key}.title`, vars),
+    description: tIn(l, `meta.${key}.description`, vars),
   };
 }
+
+const pageUrl = (site: string, path: string, locale: Locale) =>
+  `${site}${localePath(path, locale)}`;
 
 /** 'https://x.pages.dev/' -> 'https://x.pages.dev' */
 export const normaliseSiteUrl = (url: string): string => url.trim().replace(/\/+$/, '');
@@ -31,19 +45,29 @@ const escapeAttr = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /** The <head> tags for one page, as an HTML string. */
-export function headTags(key: RouteKey, siteUrl: string): string {
+export function headTags(key: RouteKey, siteUrl: string, locale: Locale = 'en'): string {
   const site = normaliseSiteUrl(siteUrl);
-  const route = ROUTES.find((r) => r.key === key);
-  const url = `${site}${route?.path === '/' ? '/' : (route?.path ?? '/')}`;
-  const { title, description } = pageMeta(key);
+  const path = ROUTES.find((r) => r.key === key)?.path ?? '/';
+  const url = pageUrl(site, path, locale);
+  const { title, description } = pageMeta(key, locale);
   const image = `${site}${OG_IMAGE.path}`;
-  const imageAlt = t('home.title', META_VARS);
+  const imageAlt = tIn(locale, 'home.title', metaVars(locale));
   const tags: [string, Record<string, string>][] = [
     ['meta', { name: 'description', content: description }],
     ['link', { rel: 'canonical', href: url }],
+    // The same page in each language, so search engines show the right one.
+    ...LOCALES.map((l): [string, Record<string, string>] => [
+      'link',
+      { rel: 'alternate', hreflang: `${l}-IN`, href: pageUrl(site, path, l) },
+    ]),
+    ['link', { rel: 'alternate', hreflang: 'x-default', href: pageUrl(site, path, 'en') }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:site_name', content: t('app.name') }],
-    ['meta', { property: 'og:locale', content: 'en_IN' }],
+    ['meta', { property: 'og:site_name', content: tIn(locale, 'app.name') }],
+    ['meta', { property: 'og:locale', content: OG_LOCALE[locale] }],
+    ...LOCALES.filter((l) => l !== locale).map((l): [string, Record<string, string>] => [
+      'meta',
+      { property: 'og:locale:alternate', content: OG_LOCALE[l] },
+    ]),
     ['meta', { property: 'og:title', content: title }],
     ['meta', { property: 'og:description', content: description }],
     ['meta', { property: 'og:url', content: url }],
@@ -73,9 +97,11 @@ export const contentLastReviewed = (): string =>
 export function sitemapXml(siteUrl: string): string {
   const site = normaliseSiteUrl(siteUrl);
   const lastmod = contentLastReviewed();
-  const urls = ROUTES.map(
-    (r) =>
-      `  <url>\n    <loc>${site}${r.path === '/' ? '/' : r.path}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
+  const urls = LOCALES.flatMap((l) =>
+    ROUTES.map(
+      (r) =>
+        `  <url>\n    <loc>${pageUrl(site, r.path, l)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
+    ),
   ).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
@@ -87,3 +113,11 @@ export const robotsTxt = (siteUrl: string): string =>
 export const SEO_BLOCK = /<!-- seo:start -->[\s\S]*?<!-- seo:end -->/;
 export const withHeadTags = (html: string, tags: string): string =>
   html.replace(SEO_BLOCK, `<!-- seo:start -->\n    ${tags}\n    <!-- seo:end -->`);
+
+/** The <html lang> of a built page. */
+export const withHtmlLang = (html: string, locale: Locale): string =>
+  html.replace(/<html lang="[^"]*">/, `<html lang="${locale}-IN">`);
+
+/** The static file each page is written to: privacy.html, hi/privacy.html, hi/index.html. */
+export const pageFile = (file: string, locale: Locale): string =>
+  locale === 'en' ? file : `${locale}/${file}`;

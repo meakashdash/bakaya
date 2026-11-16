@@ -1,6 +1,7 @@
 // The letter details form (PRD §3). Values are strings; error messages are i18n keys.
 import { z } from 'zod';
 import { isValidIsoDate } from '../domain/dates';
+import { LOCALES, type Locale } from '../i18n';
 
 export const TONES = ['friendly', 'firm', 'final'] as const;
 export type Tone = (typeof TONES)[number];
@@ -10,6 +11,8 @@ export type UdyamField = 'required' | 'optional' | 'hidden';
 
 export const letterFormDefaults = {
   tone: 'friendly' as Tone,
+  /** The letter's language. LetterFlow sets it to the page language for a new letter. */
+  language: 'en' as Locale,
   supplierName: '',
   supplierAddress: '',
   udyamNumber: '',
@@ -74,6 +77,7 @@ export function makeLetterSchema(asOfDate: string, udyam: UdyamField) {
 
   return z.object({
     tone: z.enum(TONES),
+    language: z.enum(LOCALES),
     supplierName: required(),
     supplierAddress: multiline(),
     udyamNumber: udyamSchema,

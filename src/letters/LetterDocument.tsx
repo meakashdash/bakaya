@@ -1,7 +1,8 @@
 // The A4 letter as a react-pdf document. Imported only by pdf.tsx (lazy-loaded).
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { tIn } from '../i18n';
 import type { Letter } from './buildLetter';
-import { FONT_FAMILY } from './pdfFonts';
+import { fontFamilyFor } from './pdfFonts';
 import type { Block } from './template';
 
 const GREEN = '#166534';
@@ -9,7 +10,6 @@ const GREY = '#44403c';
 
 const s = StyleSheet.create({
   page: {
-    fontFamily: FONT_FAMILY,
     fontSize: 10.5,
     lineHeight: 1.45,
     color: '#1c1917',
@@ -49,10 +49,10 @@ const s = StyleSheet.create({
   },
 });
 
-function BlockView({ block }: { block: Block }) {
+function BlockView({ block, subjectPrefix }: { block: Block; subjectPrefix: string }) {
   switch (block.type) {
     case 'paragraph': {
-      const subject = block.lines[0]?.startsWith('Subject:') ?? false;
+      const subject = block.lines[0]?.startsWith(subjectPrefix) ?? false;
       return (
         <View style={s.block} wrap={false}>
           {block.lines.map((line, i) => (
@@ -91,9 +91,16 @@ function BlockView({ block }: { block: Block }) {
 
 export function LetterDocument({ letter, title }: { letter: Letter; title: string }) {
   const [name, ...rest] = letter.letterhead;
+  const subjectPrefix = tIn(letter.locale, 'letter.subjectPrefix');
   return (
-    <Document title={title} author={name ?? ''} creator="" producer="">
-      <Page size="A4" style={s.page}>
+    <Document
+      title={title}
+      author={name ?? ''}
+      creator=""
+      producer=""
+      language={letter.locale === 'hi' ? 'hi-IN' : 'en-IN'}
+    >
+      <Page size="A4" style={[s.page, { fontFamily: fontFamilyFor(letter.locale) }]}>
         <View style={s.letterhead}>
           <Text style={s.supplierName}>{name}</Text>
           {rest.map((line, i) => (
@@ -103,7 +110,7 @@ export function LetterDocument({ letter, title }: { letter: Letter; title: strin
           ))}
         </View>
         {letter.body.map((block, i) => (
-          <BlockView key={i} block={block} />
+          <BlockView key={i} block={block} subjectPrefix={subjectPrefix} />
         ))}
         <Text style={s.footer} fixed>
           {letter.disclaimer}

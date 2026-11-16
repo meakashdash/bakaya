@@ -10,8 +10,8 @@ import {
   WhyCard,
 } from '../components/result/cards';
 import type { CalculationInput, CalculationResult } from '../domain/types';
-import { t } from '../i18n';
-import { formatDisplayDate } from '../domain/dates';
+import { formatDate, getLocale, t } from '../i18n';
+import { localePath } from '../router';
 import { letterMode } from '../letters/mode';
 import { buildWhatsAppText, whatsAppUrl } from '../letters/whatsapp';
 import { SrSuffix } from '../components/SrSuffix';
@@ -36,7 +36,10 @@ export function Result({
   onCreateLetter,
   letterButtonRef,
 }: Props) {
-  const shareHref = whatsAppUrl(buildWhatsAppText(input, result, siteUrl));
+  // The link in the message opens the calculator in the same language.
+  const shareHref = whatsAppUrl(
+    buildWhatsAppText(input, result, siteUrl + localePath('/', getLocale()).replace(/\/$/, '')),
+  );
   const mode = letterMode(input, result);
 
   return (
@@ -66,7 +69,11 @@ export function Result({
           )}
           <Warnings codes={result.warnings} />
           <DeadlineCard result={result} objectionRaised={input.objection.raised} />
-          <WhyCard citations={result.citations} multiplier={result.currentRate.multiplier} />
+          <WhyCard
+            citations={result.citations}
+            multiplier={result.currentRate.multiplier}
+            tax={result.tax}
+          />
         </>
       ) : (
         <NotCoveredCard />
@@ -75,7 +82,7 @@ export function Result({
       <div className="space-y-3 pt-2">
         {mode === 'not_yet_due' && result.covered ? (
           <p className="rounded-lg bg-stone-100 p-4 text-stone-800">
-            {t('letter.notYetDue', { dueDate: formatDisplayDate(result.dueDate) })}
+            {t('letter.notYetDue', { dueDate: formatDate(result.dueDate) })}
           </p>
         ) : (
           <button
@@ -110,7 +117,7 @@ export function Result({
         </button>
       </div>
 
-      <Disclaimer text={result.disclaimer} />
+      <Disclaimer />
     </section>
   );
 }

@@ -1,10 +1,11 @@
+import { tIn } from '../i18n';
 import type { Letter } from './buildLetter';
 import type { Block } from './template';
 
-function BlockView({ block }: { block: Block }) {
+function BlockView({ block, subjectPrefix }: { block: Block; subjectPrefix: string }) {
   switch (block.type) {
     case 'paragraph': {
-      const subject = block.lines[0]?.startsWith('Subject:') ?? false;
+      const subject = block.lines[0]?.startsWith(subjectPrefix) ?? false;
       return (
         <p className={subject ? 'font-semibold' : undefined}>
           {block.lines.map((line, i) => (
@@ -52,6 +53,7 @@ function BlockView({ block }: { block: Block }) {
 /** On-screen version of the letter, from the same blocks as the PDF. */
 export function LetterPreview({ letter }: { letter: Letter }) {
   const [name, ...rest] = letter.letterhead;
+  const subjectPrefix = tIn(letter.locale, 'letter.subjectPrefix');
   return (
     <article className="rounded-lg border border-stone-300 bg-white p-5 text-[15px] leading-relaxed text-stone-900 shadow-sm break-words">
       <header className="mb-5 border-b-2 border-green-800 pb-3">
@@ -64,7 +66,7 @@ export function LetterPreview({ letter }: { letter: Letter }) {
       </header>
       <div className="space-y-4">
         {letter.body.map((block, i) => (
-          <BlockView key={i} block={block} />
+          <BlockView key={i} block={block} subjectPrefix={subjectPrefix} />
         ))}
       </div>
       <footer className="mt-6 border-t border-stone-300 pt-3 text-xs text-stone-600">

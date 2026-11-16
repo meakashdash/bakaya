@@ -225,7 +225,13 @@
     "pdfTitle": "Payment reminder, invoice {{invoice}}",
     "pageTitle": "Your reminder letter: Bakaya",
     "days": "{{days}} days",
-    "days_one": "1 day"
+    "days_one": "1 day",
+    "subjectPrefix": "Subject:",
+    "language": {
+      "label": "Letter language",
+      "en": "English",
+      "hi": "Hindi (हिंदी)"
+    }
   },
   "waitlist": {
     "heading": "Want us to send follow-ups for you automatically?",
@@ -272,7 +278,9 @@
     "calculator": "Calculator",
     "howItWorks": "How it works",
     "privacy": "Privacy",
-    "terms": "Terms"
+    "terms": "Terms",
+    "switchLanguage": "हिंदी",
+    "switchLanguageLabel": "हिंदी में पढ़ें (Read this page in Hindi)"
   },
   "footer": {
     "ratesReviewed": "Rates last reviewed: {{date}}",
@@ -432,5 +440,22 @@
     "title": "Page not found",
     "body": "This page doesn’t exist. It may have moved.",
     "link": "Go to the calculator"
+  },
+  "date": {
+    "format": "{{day}} {{month}} {{year}}",
+    "months": {
+      "m1": "Jan",
+      "m2": "Feb",
+      "m3": "Mar",
+      "m4": "Apr",
+      "m5": "May",
+      "m6": "Jun",
+      "m7": "Jul",
+      "m8": "Aug",
+      "m9": "Sep",
+      "m10": "Oct",
+      "m11": "Nov",
+      "m12": "Dec"
+    }
   }
 }

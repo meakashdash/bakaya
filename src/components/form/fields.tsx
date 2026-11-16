@@ -3,7 +3,7 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import { t } from '../../i18n';
-import { ERROR_VARS } from './errorVars';
+import { errorVars } from './errorVars';
 
 const describedBy = (...ids: (string | false | undefined)[]) =>
   ids.filter(Boolean).join(' ') || undefined;
@@ -13,7 +13,7 @@ export function FieldError({ id, messageKey }: { id: string; messageKey: string 
   return (
     <p id={id} className="mt-2 flex gap-1.5 text-sm font-medium text-red-700">
       <span aria-hidden="true">!</span>
-      {t(messageKey, ERROR_VARS)}
+      {t(messageKey, errorVars())}
     </p>
   );
 }

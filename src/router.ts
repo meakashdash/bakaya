@@ -2,6 +2,7 @@
 // Each route also exists as a static HTML file at build time (see vite.config.ts), so direct
 // visits and link previews get the right title and Open Graph tags without JavaScript.
 import { useSyncExternalStore } from 'react';
+import type { Locale } from './i18n';
 import { ROUTES, type RouteKey } from './seo/routes';
 
 /** '/privacy/', '/privacy.html' and '/privacy' are the same page. */
@@ -10,8 +11,30 @@ export function normalisePath(pathname: string): string {
   return p.length > 1 ? p.replace(/\/+$/, '') : '/';
 }
 
-export function routeFor(pathname: string): RouteKey | 'notFound' {
+/** Hindi pages live under /hi: /hi, /hi/how-it-works, ... Everything else is English. */
+export function localeFor(pathname: string): Locale {
   const path = normalisePath(pathname);
+  return path === '/hi' || path.startsWith('/hi/') ? 'hi' : 'en';
+}
+
+/** The path without its language prefix: '/hi/privacy' -> '/privacy', '/hi' -> '/'. */
+export function stripLocale(pathname: string): string {
+  const path = normalisePath(pathname);
+  if (localeFor(path) === 'en') return path;
+  return path.slice(3) || '/';
+}
+
+/** The same page in a language: ('/privacy', 'hi') -> '/hi/privacy'. Keeps any #hash. */
+export function localePath(to: string, locale: Locale): string {
+  const i = to.indexOf('#');
+  const [path, hash] = i === -1 ? [to, ''] : [to.slice(0, i), to.slice(i)];
+  const base = stripLocale(path || '/');
+  if (locale === 'en') return base + hash;
+  return (base === '/' ? '/hi' : `/hi${base}`) + hash;
+}
+
+export function routeFor(pathname: string): RouteKey | 'notFound' {
+  const path = stripLocale(pathname);
   return ROUTES.find((r) => r.path === path)?.key ?? 'notFound';
 }
 

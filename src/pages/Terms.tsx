@@ -2,7 +2,6 @@
 import { WithEmail } from '../components/Contact';
 import { ContentPage, Section } from '../components/content';
 import { Disclaimer } from '../components/result/cards';
-import { legalConfig } from '../data';
 import { t, tSections } from '../i18n';
 
 export default function Terms() {
@@ -18,7 +17,7 @@ export default function Terms() {
           <WithEmail k="terms.contact.body" />
         </p>
       </Section>
-      <Disclaimer text={legalConfig.disclaimer} />
+      <Disclaimer />
     </ContentPage>
   );
 }

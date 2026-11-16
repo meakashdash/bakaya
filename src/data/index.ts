@@ -8,7 +8,10 @@ import taxRatesJson from '../../data/tax-rates.json';
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const taxYearLabel = z.string().regex(/^\d{4}-\d{2}$/);
-const sectionLabel = z.object({ label: z.string(), short: z.string() });
+const labelPair = z.object({ label: z.string().min(1), short: z.string().min(1) });
+// Hindi versions of the legal labels live next to the English ones, so a section number can
+// never differ between the two languages without a test noticing (tests/i18n-hi.test.ts).
+const sectionLabel = labelPair.extend({ hi: labelPair });
 const sizeLimit = z.object({ investmentCr: z.number().positive(), turnoverCr: z.number().positive() });
 
 const bankRatesSchema = z.object({
@@ -46,6 +49,7 @@ const legalConfigSchema = z.object({
         act: z.string(),
         section: z.string(),
         source: z.string().optional(),
+        hi: z.object({ act: z.string().min(1), section: z.string().min(1) }),
       }),
     )
     .min(1),
@@ -69,6 +73,7 @@ const legalConfigSchema = z.object({
     url: z.string(),
     urlVerified: z.boolean(),
     urlNote: z.string().optional(),
+    hi: z.object({ name: z.string().min(1) }),
   }),
   sources: z.array(
     z.object({
@@ -84,6 +89,7 @@ const legalConfigSchema = z.object({
     taxArgumentStrongMonths: z.array(z.number().int().min(1).max(12)),
   }),
   disclaimer: z.string().min(1),
+  disclaimerTranslations: z.object({ hi: z.string().min(1) }),
 });
 
 const taxRatesSchema = z.object({

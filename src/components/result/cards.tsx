@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { legalConfig } from '../../data';
-import { formatDisplayDate } from '../../domain/dates';
 import { formatRupees, type Amount } from '../../domain/money';
 import type {
   Citation,
@@ -9,7 +8,8 @@ import type {
   TaxResult,
   WarningCode,
 } from '../../domain/types';
-import { formatPercent, pluralKey, t } from '../../i18n';
+import { formatDate, formatPercent, pluralKey, t } from '../../i18n';
+import { citationLabel, disclaimerText } from '../../i18n/legal';
 import { Trans } from '../../i18n/Trans';
 import { Link } from '../Link';
 import { WARNING_VARS } from './warningVars';
@@ -96,7 +96,7 @@ export function InterestCard({ result, lead }: { result: CoveredResult; lead: bo
             {t(pluralKey('status.notDueYet', result.daysUntilDue), { days: result.daysUntilDue })}
           </p>
           <p className={`mt-2 ${muted(lead)}`}>
-            {t('result.interest.startsAfter', { dueDate: formatDisplayDate(result.dueDate) })}
+            {t('result.interest.startsAfter', { dueDate: formatDate(result.dueDate) })}
           </p>
         </>
       )}
@@ -119,10 +119,7 @@ export function TaxCard({
     body = (
       <>
         <p id="tax-card-title" className="text-lg leading-relaxed">
-          <Trans
-            k="result.tax.atRisk"
-            values={{ yearEnd: formatDisplayDate(tax.yearEnd), amount }}
-          />
+          <Trans k="result.tax.atRisk" values={{ yearEnd: formatDate(tax.yearEnd), amount }} />
         </p>
         {tax.daysToYearEnd > 0 && (
           <p className="mt-3 inline-block rounded-full bg-stone-900/10 px-3 py-1 font-semibold">
@@ -150,7 +147,7 @@ export function TaxCard({
           {t('status.not_at_risk_this_year')}
         </p>
         <p className="mt-3 text-lg leading-relaxed">
-          <Trans k="result.tax.ifMissed" values={{ dueDate: formatDisplayDate(dueDate), amount }} />
+          <Trans k="result.tax.ifMissed" values={{ dueDate: formatDate(dueDate), amount }} />
         </p>
       </>
     );
@@ -189,12 +186,12 @@ export function DeadlineCard({
       </h3>
       <dl>
         <Row term={t(result.isOverdue ? 'result.deadline.wasDueBy' : 'result.deadline.dueBy')}>
-          {formatDisplayDate(result.dueDate)}
+          {formatDate(result.dueDate)}
         </Row>
         <Row term={t('result.deadline.period')}>
           {t(pluralKey('result.deadline.periodValue', result.agreedDaysUsed), {
             days: result.agreedDaysUsed,
-            date: formatDisplayDate(result.acceptanceDate),
+            date: formatDate(result.acceptanceDate),
           })}
         </Row>
         <Row
@@ -202,7 +199,7 @@ export function DeadlineCard({
             result.isOverdue ? 'result.deadline.interestFrom' : 'result.deadline.interestStartsOn',
           )}
         >
-          {formatDisplayDate(result.interestStartDate)}
+          {formatDate(result.interestStartDate)}
         </Row>
         {result.isOverdue && <Row term={t('result.deadline.daysLate')}>{result.daysOverdue}</Row>}
         <Row term={t('result.deadline.rate')}>
@@ -223,7 +220,15 @@ export function DeadlineCard({
   );
 }
 
-export function WhyCard({ citations, multiplier }: { citations: Citation[]; multiplier: number }) {
+export function WhyCard({
+  citations,
+  multiplier,
+  tax,
+}: {
+  citations: Citation[];
+  multiplier: number;
+  tax: { act: string; section: string } | null;
+}) {
   const rules = legalConfig.paymentRules;
   const explain: Record<Citation['id'], string> = {
     deadline: t('result.why.deadline', {
@@ -241,7 +246,7 @@ export function WhyCard({ citations, multiplier }: { citations: Citation[]; mult
       <ul className="space-y-4">
         {citations.map((c) => (
           <li key={c.id} className="border-l-4 border-green-800 pl-3">
-            <p className="font-semibold">{c.label}</p>
+            <p className="font-semibold">{citationLabel(c, tax)}</p>
             <p className="mt-1 text-stone-700">{explain[c.id]}</p>
             <p className="mt-1 flex flex-wrap gap-x-5">
               <Link
@@ -249,7 +254,9 @@ export function WhyCard({ citations, multiplier }: { citations: Citation[]; mult
                 className="inline-flex min-h-11 items-center font-semibold text-green-800 underline underline-offset-2 hover:text-green-900"
               >
                 {t('result.why.learnMore')}
-                <SrSuffix>{t('result.why.learnMoreAbout', { topic: c.label })}</SrSuffix>
+                <SrSuffix>
+                  {t('result.why.learnMoreAbout', { topic: citationLabel(c, tax) })}
+                </SrSuffix>
               </Link>
               {c.url && (
                 <a
@@ -293,7 +300,8 @@ export function Warnings({ codes }: { codes: WarningCode[] }) {
   );
 }
 
-export function Disclaimer({ text }: { text: string }) {
+/** The disclaimer from legal-config.json, in the page language. */
+export function Disclaimer({ text = disclaimerText() }: { text?: string }) {
   return (
     <aside
       aria-labelledby="disclaimer-heading"

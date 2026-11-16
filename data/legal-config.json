@@ -15,28 +15,73 @@
       "fromTaxYear": "2023-24",
       "toTaxYear": "2025-26",
       "act": "Income-tax Act, 1961",
-      "section": "Section 43B(h)"
+      "section": "Section 43B(h)",
+      "hi": {
+        "act": "आयकर अधिनियम, 1961",
+        "section": "धारा 43B(h)"
+      }
     },
     {
       "fromTaxYear": "2026-27",
       "toTaxYear": null,
       "act": "Income-tax Act, 2025",
       "section": "Section 37(2)(g)",
-      "source": "https://accountune.com/msme-45-day-payment-rule-section-43bh"
+      "source": "https://accountune.com/msme-45-day-payment-rule-section-43bh",
+      "hi": {
+        "act": "आयकर अधिनियम, 2025",
+        "section": "धारा 37(2)(g)"
+      }
     }
   ],
   "msmedSections": {
-    "deadline": { "label": "MSMED Act, 2006, Section 15", "short": "Section 15" },
-    "interest": { "label": "MSMED Act, 2006, Section 16", "short": "Section 16" },
-    "recovery": { "label": "MSMED Act, 2006, Section 17", "short": "Section 17" },
-    "interestNotDeductible": { "label": "MSMED Act, 2006, Section 23", "short": "Section 23" }
+    "deadline": {
+      "label": "MSMED Act, 2006, Section 15",
+      "short": "Section 15",
+      "hi": {
+        "label": "MSMED अधिनियम, 2006, धारा 15",
+        "short": "धारा 15"
+      }
+    },
+    "interest": {
+      "label": "MSMED Act, 2006, Section 16",
+      "short": "Section 16",
+      "hi": {
+        "label": "MSMED अधिनियम, 2006, धारा 16",
+        "short": "धारा 16"
+      }
+    },
+    "recovery": {
+      "label": "MSMED Act, 2006, Section 17",
+      "short": "Section 17",
+      "hi": {
+        "label": "MSMED अधिनियम, 2006, धारा 17",
+        "short": "धारा 17"
+      }
+    },
+    "interestNotDeductible": {
+      "label": "MSMED Act, 2006, Section 23",
+      "short": "Section 23",
+      "hi": {
+        "label": "MSMED अधिनियम, 2006, धारा 23",
+        "short": "धारा 23"
+      }
+    }
   },
   "classificationFrom2025": {
     "effectiveFrom": "2025-04-01",
     "notification": "S.O. 1364(E), 21 March 2025",
-    "micro": { "investmentCr": 2.5, "turnoverCr": 10 },
-    "small": { "investmentCr": 25, "turnoverCr": 100 },
-    "medium": { "investmentCr": 125, "turnoverCr": 500 }
+    "micro": {
+      "investmentCr": 2.5,
+      "turnoverCr": 10
+    },
+    "small": {
+      "investmentCr": 25,
+      "turnoverCr": 100
+    },
+    "medium": {
+      "investmentCr": 125,
+      "turnoverCr": 500
+    }
   },
   "complaintPortal": {
     "name": "MSME ODR portal",
@@ -44,16 +89,70 @@
     "onlyRouteSince": "2025-10-15",
     "url": "https://odr.msme.gov.in",
     "urlVerified": false,
-    "urlNote": "VERIFY: found by web search (Nov 2026) on a government domain; confirm before launch"
+    "urlNote": "VERIFY: found by web search (Nov 2026) on a government domain; confirm before launch",
+    "hi": {
+      "name": "MSME ODR पोर्टल"
+    }
   },
   "sources": [
-    { "id": "msmed-act", "topics": ["deadline", "interest", "complaint"], "label": "MSMED Act, 2006 (full text, Ministry of MSME)", "url": "https://dcmsme.gov.in/old/MSMED2006.pdf", "verified": false },
-    { "id": "classification-2025", "topics": ["who"], "label": "Udyam Registration circular on the revised MSME limits from 1 April 2025", "url": "https://udyamregistration.gov.in/docs/Circular_reverse_24102025.pdf", "verified": false },
-    { "id": "tax-37-2-g", "topics": ["tax"], "label": "Accountune: MSME 45-day payment rule, Section 43B(h) and Section 37(2)(g)", "url": "https://accountune.com/msme-45-day-payment-rule-section-43bh", "verified": false },
-    { "id": "tax-43b-h", "topics": ["tax"], "label": "Busy: Section 43B(h) MSME payment rule explained", "url": "https://busy.in/tds/section-43bh-msme-payment-rule-and-45-day-limit-explained/", "verified": false },
-    { "id": "odr-only-route", "topics": ["complaint"], "label": "iPleaders: MSME Samadhaan and delayed payment recovery", "url": "https://blog.ipleaders.in/msme-samadhaan-delayed-payment-recovery/", "verified": false }
+    {
+      "id": "msmed-act",
+      "topics": [
+        "deadline",
+        "interest",
+        "complaint"
+      ],
+      "label": "MSMED Act, 2006 (full text, Ministry of MSME)",
+      "url": "https://dcmsme.gov.in/old/MSMED2006.pdf",
+      "verified": false
+    },
+    {
+      "id": "classification-2025",
+      "topics": [
+        "who"
+      ],
+      "label": "Udyam Registration circular on the revised MSME limits from 1 April 2025",
+      "url": "https://udyamregistration.gov.in/docs/Circular_reverse_24102025.pdf",
+      "verified": false
+    },
+    {
+      "id": "tax-37-2-g",
+      "topics": [
+        "tax"
+      ],
+      "label": "Accountune: MSME 45-day payment rule, Section 43B(h) and Section 37(2)(g)",
+      "url": "https://accountune.com/msme-45-day-payment-rule-section-43bh",
+      "verified": false
+    },
+    {
+      "id": "tax-43b-h",
+      "topics": [
+        "tax"
+      ],
+      "label": "Busy: Section 43B(h) MSME payment rule explained",
+      "url": "https://busy.in/tds/section-43bh-msme-payment-rule-and-45-day-limit-explained/",
+      "verified": false
+    },
+    {
+      "id": "odr-only-route",
+      "topics": [
+        "complaint"
+      ],
+      "label": "iPleaders: MSME Samadhaan and delayed payment recovery",
+      "url": "https://blog.ipleaders.in/msme-samadhaan-delayed-payment-recovery/",
+      "verified": false
+    }
   ],
   "amendment2026Notified": false,
-  "seasonality": { "taxArgumentStrongMonths": [1, 2, 3] },
-  "disclaimer": "This tool gives general information based on the MSMED Act, 2006 and the Income-tax Act. It is not legal or tax advice. Please confirm with your Chartered Accountant or lawyer before taking action."
+  "seasonality": {
+    "taxArgumentStrongMonths": [
+      1,
+      2,
+      3
+    ]
+  },
+  "disclaimer": "This tool gives general information based on the MSMED Act, 2006 and the Income-tax Act. It is not legal or tax advice. Please confirm with your Chartered Accountant or lawyer before taking action.",
+  "disclaimerTranslations": {
+    "hi": "यह टूल MSMED अधिनियम, 2006 और आयकर अधिनियम पर आधारित सामान्य जानकारी देता है। यह कानूनी या टैक्स सलाह नहीं है। कोई भी कदम उठाने से पहले कृपया अपने चार्टर्ड अकाउंटेंट (CA) या वकील से पुष्टि करें।"
+  }
 }
