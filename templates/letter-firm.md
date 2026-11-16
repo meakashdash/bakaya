@@ -27,13 +27,15 @@ Despite our earlier reminder, the following amount remains unpaid:
 As a registered {{category}} enterprise (Udyam No. {{udyamNumber}}), we are entitled to:
 
 1. Payment within the period set by {{deadlineSection}}.
-2. Compound interest with monthly rests at three times the RBI bank rate under {{interestSection}}, which applies regardless of any agreement.
+2. Compound interest with monthly rests at {{interestMultiplier}} times the RBI bank rate under {{interestSection}}, which applies regardless of any agreement.
 
+{{#taxApplies}}
 We also note that under {{taxSection}} of the {{taxAct}}, this expense can't be claimed in your tax year ending {{yearEnd}} if it remains unpaid on that date.
+{{/taxApplies}}
 
 We request payment of {{amount}} together with the accrued interest within 7 days of this letter.
 
 Regards,
 {{supplierSignatory}}
 {{supplierName}}
-{{supplierPhone}} | {{supplierEmail}}
+{{supplierPhone}}{{#supplierEmail}} | {{supplierEmail}}{{/supplierEmail}}

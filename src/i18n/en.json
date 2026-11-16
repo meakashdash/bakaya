@@ -1,1 +1,426 @@
-{}
+{
+  "app": {
+    "name": "Bakaya",
+    "skipToMain": "Skip to main content",
+    "homeLink": "Bakaya, go to the calculator"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "notSure": "Not sure",
+    "optional": "optional",
+    "opensNewTab": "(opens in a new tab)"
+  },
+  "home": {
+    "title": "Owed money for more than {{maxDays}} days? The law is on your side.",
+    "subtitle": "See what your late buyer owes you in interest, and how much extra tax they pay if they don't clear it by 31 March. Free. Nothing leaves your phone."
+  },
+  "form": {
+    "heading": "Your invoice",
+    "category": {
+      "label": "What is your business type on Udyam?",
+      "help": "It's on your Udyam certificate.",
+      "micro": "Micro",
+      "small": "Small",
+      "medium": "Medium",
+      "not_registered": "Not registered"
+    },
+    "isTrader": {
+      "label": "Do you only trade goods (buy and resell)?"
+    },
+    "registeredBeforeSupply": {
+      "label": "Was your Udyam registration done before this supply?"
+    },
+    "amount": {
+      "label": "Invoice amount (₹)",
+      "help": "For example 5,00,000"
+    },
+    "deliveryDate": {
+      "label": "Date you delivered the goods or finished the service"
+    },
+    "objection": {
+      "label": "Did the buyer object in writing within {{days}} days?"
+    },
+    "objectionResolvedDate": {
+      "label": "Date the objection was sorted out"
+    },
+    "agreement": {
+      "label": "Is there a written agreement on payment days?"
+    },
+    "agreementDays": {
+      "label": "How many days?"
+    },
+    "buyerType": {
+      "label": "What kind of business is the buyer?",
+      "help": "This helps us estimate their tax.",
+      "company": "Company",
+      "firm_llp": "Firm or LLP",
+      "not_sure": "Not sure"
+    },
+    "submit": "Check what they owe"
+  },
+  "result": {
+    "heading": "What your buyer owes",
+    "interest": {
+      "lateBy": "Your buyer is {{days}} days late.",
+      "lateBy_one": "Your buyer is 1 day late.",
+      "owes": "They now owe you {{amount}} in interest.",
+      "startsAfter": "If they pay after {{dueDate}}, interest starts adding up the next day."
+    },
+    "tax": {
+      "atRisk": "If they don't pay by {{yearEnd}}, they pay about {{amount}} more tax this year.",
+      "atRiskWhy": "That's because they can't claim this invoice as an expense this year if it's still unpaid on 31 March.",
+      "daysLeft": "{{days}} days left to 31 March.",
+      "daysLeft_one": "1 day left to 31 March.",
+      "ifMissed": "If they miss the {{dueDate}} deadline, they could pay about {{amount}} more tax.",
+      "deferredAmount": "That's about {{amount}} more tax for that year.",
+      "range": "{{low}} to {{high}}",
+      "basisRange": "Based on a tax rate of {{low}} to {{high}}, depending on the type of business.",
+      "basisSingle": "Based on a tax rate of {{rate}}."
+    },
+    "deadline": {
+      "heading": "The deadline",
+      "dueBy": "Payment due by",
+      "wasDueBy": "Payment was due by",
+      "period": "Payment period",
+      "periodValue": "{{days}} days from {{date}}",
+      "objectionNote": "We counted from the day the objection was sorted out.",
+      "interestFrom": "Interest counted from",
+      "daysLate": "Days late",
+      "rate": "Interest rate used",
+      "rateValue": "{{annual}} a year, which is {{multiplier}} × RBI bank rate of {{bank}}",
+      "rateChanged": "The RBI bank rate changed during this time. We used the rate in force on each day.",
+      "compounding": "Interest is added to the amount owed at the end of each month.",
+      "periodValue_one": "1 day from {{date}}",
+      "interestStartsOn": "Interest would start on",
+      "rbiExplained": "The RBI bank rate is set by the Reserve Bank of India and changes from time to time."
+    },
+    "why": {
+      "heading": "Why this is true",
+      "deadline": "Buyers must pay within {{noAgreementDays}} days. With a written agreement, they can take longer, but never more than {{maxDays}} days.",
+      "interest": "If they pay late, they owe compound interest at {{multiplier}} times the RBI bank rate, added every month. No contract can reduce it.",
+      "tax": "A buyer can't claim a late, unpaid invoice as an expense in that tax year. They can claim it only in the year they pay.",
+      "source": "Source",
+      "learnMore": "Learn more",
+      "learnMoreAbout": "about {{topic}}"
+    },
+    "notCovered": {
+      "heading": "This rule doesn't cover your business",
+      "next": "You can still remind your buyer politely about the payment."
+    },
+    "warningsHeading": "Please note",
+    "actions": {
+      "whatsapp": "Share on WhatsApp",
+      "whatsappHint": "Opens WhatsApp with a message you can edit before sending.",
+      "another": "Calculate another invoice"
+    },
+    "disclaimerHeading": "Important",
+    "stale": "You changed your answers. Press \"Check what they owe\" to see the new result."
+  },
+  "share": {
+    "intro": "Hi, a gentle reminder about invoice of {{amount}} delivered on {{deliveryDate}}.",
+    "wasDue": "As per the MSMED Act, payment was due by {{dueDate}}.",
+    "isDue": "As per the MSMED Act, payment is due by {{dueDate}}.",
+    "interest": "Interest under {{section}} is now {{interest}}.",
+    "tax": "If unpaid by {{yearEnd}}, it also can't be claimed as an expense this tax year.",
+    "closing": "Please arrange payment. Thank you.",
+    "calculatedOn": "(Calculated on {{url}})"
+  },
+  "eligibility": {
+    "mediumNotCovered": "The {{maxDays}}-day rule protects only micro and small businesses."
+  },
+  "warnings": {
+    "medium_enterprise": "The {{maxDays}}-day rule protects only micro and small businesses.",
+    "trader": "Traders are generally not covered by the delayed-payment rules. Check with your CA.",
+    "registration": "Your Udyam registration should exist before the supply date for these protections. Check with your CA.",
+    "agreement_capped": "The law caps agreed payment periods at {{maxDays}} days, so we used {{maxDays}}.",
+    "due_after_year_end": "The deadline falls after 31 March, so there's no tax hit this year if they pay on time.",
+    "tax_rule_not_applicable": "The tax rule on late payments started in tax year {{fromTaxYear}}, so it does not apply to this invoice."
+  },
+  "status": {
+    "notDueYet": "Not due yet. Your buyer has {{days}} days left.",
+    "notDueYet_one": "Not due yet. Your buyer has 1 day left.",
+    "not_at_risk_this_year": "The deadline falls after 31 March, so there's no tax hit this year if they pay on time.",
+    "at_risk": "If unpaid on 31 March, your buyer can't claim this expense this year. Days left: {{days}}.",
+    "deferred": "Unpaid on 31 March, so your buyer couldn't claim this in tax year {{taxYear}}. They can claim it only in the year they pay."
+  },
+  "errors": {
+    "categoryRequired": "Choose your business type",
+    "choiceRequired": "Choose an answer",
+    "amountRequired": "Enter the invoice amount",
+    "amountTooLow": "Enter an amount above ₹0",
+    "amountTooHigh": "That's above what this tool supports",
+    "deliveryRequired": "Enter the delivery date",
+    "resolvedRequired": "Enter the date the objection was sorted out",
+    "dateInvalid": "Enter a valid date",
+    "deliveryInFuture": "Delivery date can't be in the future",
+    "resolvedInFuture": "This date can't be in the future",
+    "resolvedBeforeDelivery": "This date can't be before the delivery date",
+    "agreementDaysRequired": "Enter the agreed number of days",
+    "deliveryTooOld": "We can only check invoices delivered on or after {{date}}."
+  },
+  "letter": {
+    "open": "Create a polite reminder letter",
+    "notYetDue": "You can create a reminder letter once the payment is late, after {{dueDate}}.",
+    "loading": "Opening the letter…",
+    "heading": "Your reminder letter",
+    "intro": "Fill in these details and we will write the letter for you. Nothing you type leaves this device.",
+    "back": "Back to the result",
+    "tone": {
+      "label": "How firm should the letter be?",
+      "friendly": "Friendly reminder",
+      "friendlyHelp": "A polite first reminder.",
+      "firm": "Firm notice",
+      "firmHelp": "When an earlier reminder didn't work.",
+      "final": "Final notice before filing a complaint",
+      "finalHelp": "Says you will file a complaint if they don't pay soon."
+    },
+    "sections": {
+      "supplier": "Your business",
+      "buyer": "Your buyer",
+      "invoice": "The invoice"
+    },
+    "fields": {
+      "supplierName": "Business name",
+      "supplierAddress": "Business address",
+      "udyamNumber": "Udyam registration number",
+      "udyamHelp": "Like UDYAM-MH-26-0123456. It's on your Udyam certificate.",
+      "gstin": "GSTIN",
+      "supplierSignatory": "Your name",
+      "supplierSignatoryHelp": "The person signing the letter.",
+      "supplierPhone": "Phone number",
+      "supplierEmail": "Email",
+      "remember": "Remember my business details on this device",
+      "rememberHelp": "Saves only your business details, in this browser. Untick it to remove them.",
+      "buyerName": "Buyer's company name",
+      "buyerContactPerson": "Contact person at the buyer",
+      "buyerContactPersonHelp": "Who the letter is addressed to, for example Mr. Sharma.",
+      "buyerAddress": "Buyer's address",
+      "invoiceNumber": "Invoice number",
+      "invoiceNumberHelp": "If there is more than one, separate them with commas.",
+      "invoiceDate": "Invoice date"
+    },
+    "create": "Show my letter",
+    "preview": "Letter preview",
+    "download": "Download PDF",
+    "downloading": "Creating PDF…",
+    "downloaded": "Your PDF is downloaded.",
+    "downloadFailed": "We couldn't create the PDF. Please try again, or use Copy text.",
+    "copy": "Copy text",
+    "copied": "Letter copied. You can paste it into an email or WhatsApp.",
+    "copyFailed": "Couldn't copy. Please select the text in the preview and copy it.",
+    "generalNote": {
+      "medium": "This letter doesn't mention the law, because the {{maxDays}}-day rule protects only micro and small businesses.",
+      "not_registered": "This letter doesn't mention the law, because these protections need a Udyam registration."
+    },
+    "warningsHeading": "Before you send it",
+    "category": {
+      "micro": "micro",
+      "small": "small"
+    },
+    "udyamLabel": "Udyam Registration No.:",
+    "gstinLabel": "GSTIN:",
+    "fileName": "reminder-letter",
+    "pdfTitle": "Payment reminder, invoice {{invoice}}",
+    "pageTitle": "Your reminder letter: Bakaya",
+    "days": "{{days}} days",
+    "days_one": "1 day"
+  },
+  "waitlist": {
+    "heading": "Want us to send follow-ups for you automatically?",
+    "body": "Join the early list. We'll let you know when it's ready.",
+    "link": "Join the early list"
+  },
+  "letterErrors": {
+    "required": "Please fill this in",
+    "tooLong": "This is too long",
+    "udyamFormat": "Enter it like UDYAM-MH-26-0123456",
+    "gstinFormat": "Enter the 15-character GSTIN, like 27ABCDE1234F1Z5, or leave it empty",
+    "phoneFormat": "Enter a phone number with at least 10 digits",
+    "emailFormat": "Enter a valid email, or leave it empty",
+    "invoiceDateRequired": "Enter the invoice date",
+    "invoiceDateFuture": "Invoice date can't be in the future"
+  },
+  "meta": {
+    "home": {
+      "title": "MSME {{maxDays}}-day payment rule calculator | Bakaya",
+      "description": "Free MSME delayed payment interest calculator. See when your buyer had to pay, the interest they owe at {{multiplier}} times the RBI bank rate, and their extra tax. Nothing leaves your phone."
+    },
+    "howItWorks": {
+      "title": "How the MSME {{maxDays}}-day payment rule works | Bakaya",
+      "description": "The MSMED Act in plain language: payment deadlines for micro and small suppliers, delayed payment interest under {{interestSection}}, and the buyer’s tax under {{taxSection}}."
+    },
+    "privacy": {
+      "title": "Privacy | Bakaya",
+      "description": "Your invoice details never leave your device. No login, no cookies, and only cookieless visitor counts."
+    },
+    "terms": {
+      "title": "Terms of use | Bakaya",
+      "description": "Bakaya gives general information about the MSMED Act and the Income-tax Act. It is not legal or tax advice."
+    },
+    "notFound": {
+      "title": "Page not found | Bakaya",
+      "description": "This page does not exist."
+    }
+  },
+  "og": {
+    "subtitle": "Free MSME delayed payment interest calculator. Nothing leaves your phone."
+  },
+  "nav": {
+    "label": "Site",
+    "calculator": "Calculator",
+    "howItWorks": "How it works",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "footer": {
+    "ratesReviewed": "Rates last reviewed: {{date}}",
+    "info": "Information only, not legal or tax advice."
+  },
+  "content": {
+    "sources": "Sources",
+    "sourcesNote": "Links open in a new tab."
+  },
+  "howItWorks": {
+    "title": "How the MSME {{maxDays}}-day payment rule works",
+    "intro": "This is the law behind the calculator, in plain words. It is general information, not legal advice.",
+    "contents": "On this page",
+    "who": {
+      "heading": "Who is protected",
+      "p1": "The rules protect micro and small businesses that are registered on Udyam. Your category is printed on your Udyam certificate.",
+      "tableCaption": "Business size limits from {{date}}. A business must be within both limits for its category.",
+      "colCategory": "Category",
+      "colInvestment": "Investment in plant, machinery or equipment, up to",
+      "colTurnover": "Yearly turnover, up to",
+      "crore": "₹{{amount}} crore",
+      "micro": "Micro",
+      "small": "Small",
+      "medium": "Medium",
+      "medium_note": "Medium businesses are not covered by the payment deadline and interest rules. This calculator can still help you send a polite reminder.",
+      "trader": "Traders who only buy and resell goods are generally not covered. Check with your CA.",
+      "registration": "Your Udyam registration should exist before you supply the goods or services. Courts have linked the protection to being registered when the contract was made. Check with your CA."
+    },
+    "deadline": {
+      "heading": "When the buyer must pay",
+      "p1": "The clock starts on the day you deliver the goods or finish the service.",
+      "noAgreement": "No written agreement: the buyer must pay within {{noAgreementDays}} days.",
+      "agreement": "Written agreement: the buyer must pay within the agreed days, but never more than {{maxDays}} days. If the agreement says more, the law still uses {{maxDays}}.",
+      "objection": "If the buyer objects in writing within {{objectionDays}} days of delivery, the clock starts on the day the objection is sorted out.",
+      "example": "Example: you deliver on {{acceptance}} and the agreement says {{maxDays}} days. Payment is due by {{due}}. Interest starts on {{interestStart}}.",
+      "counting": "We add the number of days to the delivery date. Check the exact day counting with your CA."
+    },
+    "interest": {
+      "heading": "Interest on late payment",
+      "p1": "If the buyer pays late, they owe interest at {{multiplier}} times the RBI bank rate. Today that is {{annual}} a year ({{multiplier}} × {{bank}}).",
+      "rbi": "The RBI bank rate is set by the Reserve Bank of India and changes from time to time.",
+      "compound": "The interest is compound: at the end of each month it is added to the amount owed, and the next month’s interest is charged on the new total.",
+      "daily": "We use the bank rate in force on each day, so the rate can change during a long delay.",
+      "noContract": "No contract can reduce this interest.",
+      "notDeductible": "The buyer can’t claim this interest as a business expense for income tax ({{section}})."
+    },
+    "tax": {
+      "heading": "The buyer’s income tax",
+      "p1": "A buyer normally claims payments to suppliers as a business expense, which lowers their income tax.",
+      "p2": "If they pay a micro or small supplier late, and the amount is still unpaid on 31 March, they can’t claim it in that tax year. They can claim it only in the year they actually pay.",
+      "p3": "So paying you late makes them pay more tax this year. They get the deduction later, in the year they pay.",
+      "lawHeading": "Which law applies depends on the tax year:",
+      "lawRange": "Tax years {{from}} to {{to}}: {{section}} of the {{act}}",
+      "lawOpen": "Tax year {{from}} onwards: {{section}} of the {{act}}",
+      "estimate": "To estimate the extra tax, we multiply the invoice amount by the buyer’s tax rate: {{company}} for most companies, and {{firm}} for firms and LLPs with higher income. If you don’t know the buyer’s type, we show both.",
+      "estimateNote": "These are estimates. The buyer’s real tax depends on their own accounts."
+    },
+    "complaint": {
+      "heading": "If the buyer still doesn’t pay",
+      "p1": "You can file a delayed-payment case on the {{portal}}. Since {{since}}, it is the only way to start a new case.",
+      "p2": "The older MSME Samadhaan portal now handles only cases that were already filed there.",
+      "p3": "The case goes to a Micro and Small Enterprises Facilitation Council.",
+      "link": "Open the {{portal}}"
+    },
+    "rates": {
+      "heading": "RBI bank rates we use",
+      "p1": "Rates last reviewed on {{date}}. We update this list after every change by the RBI.",
+      "caption": "RBI bank rate history used for interest",
+      "colFrom": "From",
+      "colBank": "RBI bank rate",
+      "colInterest": "Interest rate ({{multiplier}} ×)",
+      "colSource": "Source",
+      "sourceLink": "Source",
+      "sourceLinkFor": "for the rate from {{date}}",
+      "noSource": "Not linked yet"
+    },
+    "sourcesIntro": "These are the law and the reports we used. Please confirm with your CA or lawyer before acting."
+  },
+  "privacy": {
+    "title": "Privacy",
+    "intro": "The short version: what you type stays on your device. We have no server that receives it, and we don’t use cookies.",
+    "sections": [
+      {
+        "heading": "Your invoice details stay on your device",
+        "body": "All calculations and the PDF letter are made inside your browser. Your invoice amount, dates, business details and buyer details are never sent to us or to anyone else."
+      },
+      {
+        "heading": "No account, no cookies",
+        "body": "There is no login and no sign-up. We don’t set cookies."
+      },
+      {
+        "heading": "“Remember my business details”",
+        "body": "Only if you tick this box, your own business details are saved in your browser’s storage on this device. Buyer and invoice details are never saved. Untick the box to delete them, or clear this site’s data in your browser."
+      },
+      {
+        "heading": "WhatsApp and copied text",
+        "body": "When you press “Share on WhatsApp”, WhatsApp opens with a message you can edit. Nothing is sent unless you send it yourself, and WhatsApp’s own privacy terms apply. Text you copy is only on your device."
+      },
+      {
+        "heading": "Visitor counts",
+        "body": "We use Cloudflare Web Analytics to count visits. It doesn’t use cookies and doesn’t follow you across other websites. We also count a few button presses, such as “letter downloaded”. We never record what you type into the form."
+      },
+      {
+        "heading": "The early-access list",
+        "body": "Joining is optional. The link opens a Google Form. What you enter there goes to Google Forms and to us, under Google’s privacy policy, and is used only to tell you about new features."
+      },
+      {
+        "heading": "Hosting",
+        "body": "The site is hosted on Cloudflare Pages. Like any web host, Cloudflare handles basic technical data, such as your IP address, to deliver the pages to you."
+      },
+      {
+        "heading": "Changes",
+        "body": "If anything here changes, we will update this page first."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of use",
+    "intro": "Please read these before you rely on the calculator or send a letter.",
+    "sections": [
+      {
+        "heading": "Information only",
+        "body": "Bakaya gives general information. Nothing on this site is legal or tax advice, and using it doesn’t make us your adviser."
+      },
+      {
+        "heading": "Check before you act",
+        "body": "Laws, RBI rates and tax rates change. We review them regularly, but we can’t promise every figure is correct or up to date for your case. Confirm amounts with your Chartered Accountant or lawyer before you send a notice or file a case."
+      },
+      {
+        "heading": "Your letters",
+        "body": "You decide whether to send a letter and what it says. Check every detail before you send it."
+      },
+      {
+        "heading": "Free, as it is",
+        "body": "The tool is free and provided as it is, without any guarantee."
+      },
+      {
+        "heading": "Our responsibility",
+        "body": "We are not responsible for any loss that comes from using the tool or relying on its results."
+      },
+      {
+        "heading": "Changes",
+        "body": "We may update the tool and these terms. The version on this page is the one that applies."
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "This page doesn’t exist. It may have moved.",
+    "link": "Go to the calculator"
+  }
+}

@@ -24,10 +24,10 @@
     }
   ],
   "msmedSections": {
-    "deadline": { "label": "MSMED Act, 2006, Section 15" },
-    "interest": { "label": "MSMED Act, 2006, Section 16" },
-    "recovery": { "label": "MSMED Act, 2006, Section 17" },
-    "interestNotDeductible": { "label": "MSMED Act, 2006, Section 23" }
+    "deadline": { "label": "MSMED Act, 2006, Section 15", "short": "Section 15" },
+    "interest": { "label": "MSMED Act, 2006, Section 16", "short": "Section 16" },
+    "recovery": { "label": "MSMED Act, 2006, Section 17", "short": "Section 17" },
+    "interestNotDeductible": { "label": "MSMED Act, 2006, Section 23", "short": "Section 23" }
   },
   "classificationFrom2025": {
     "effectiveFrom": "2025-04-01",
@@ -39,8 +39,18 @@
   "complaintPortal": {
     "name": "MSME ODR portal",
     "note": "Only route for new delayed-payment references since 15 October 2025. MSME Samadhaan handles only older pending cases.",
-    "url": "VERIFY: add the official ODR portal URL"
+    "onlyRouteSince": "2025-10-15",
+    "url": "https://odr.msme.gov.in",
+    "urlVerified": false,
+    "urlNote": "VERIFY: found by web search (Nov 2026) on a government domain; confirm before launch"
   },
+  "sources": [
+    { "id": "msmed-act", "topics": ["deadline", "interest", "complaint"], "label": "MSMED Act, 2006 (full text, Ministry of MSME)", "url": "https://dcmsme.gov.in/old/MSMED2006.pdf", "verified": false },
+    { "id": "classification-2025", "topics": ["who"], "label": "Udyam Registration circular on the revised MSME limits from 1 April 2025", "url": "https://udyamregistration.gov.in/docs/Circular_reverse_24102025.pdf", "verified": false },
+    { "id": "tax-37-2-g", "topics": ["tax"], "label": "Accountune: MSME 45-day payment rule, Section 43B(h) and Section 37(2)(g)", "url": "https://accountune.com/msme-45-day-payment-rule-section-43bh", "verified": false },
+    { "id": "tax-43b-h", "topics": ["tax"], "label": "Busy: Section 43B(h) MSME payment rule explained", "url": "https://busy.in/tds/section-43bh-msme-payment-rule-and-45-day-limit-explained/", "verified": false },
+    { "id": "odr-only-route", "topics": ["complaint"], "label": "iPleaders: MSME Samadhaan and delayed payment recovery", "url": "https://blog.ipleaders.in/msme-samadhaan-delayed-payment-recovery/", "verified": false }
+  ],
   "amendment2026Notified": false,
   "seasonality": { "taxArgumentStrongMonths": [1, 2, 3] },
   "disclaimer": "This tool gives general information based on the MSMED Act, 2006 and the Income-tax Act. It is not legal or tax advice. Please confirm with your Chartered Accountant or lawyer before taking action."

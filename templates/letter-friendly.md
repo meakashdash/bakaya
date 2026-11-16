@@ -1,6 +1,6 @@
 {{supplierName}}
 {{supplierAddress}}
-Udyam Registration No.: {{udyamNumber}}{{#gstin}} | GSTIN: {{gstin}}{{/gstin}}
+{{registrationLine}}
 
 Date: {{today}}
 
@@ -17,16 +17,18 @@ We value our work with {{buyerName}} and are writing as a gentle reminder about 
 
 - Invoice: {{invoiceNumber}}, dated {{invoiceDate}}
 - Amount: {{amount}}
-- Goods delivered / services completed on: {{acceptanceDate}}
-- Payment due as per {{deadlineSection}}: {{dueDate}}
-
-We are registered as a {{category}} enterprise under the MSMED Act, 2006. As of {{asOfDate}}, the payment is {{daysOverdue}} days past the due date.
+- Goods delivered / services completed on: {{deliveryDate}}
+{{#objectionResolved}}- Objection resolved on: {{acceptanceDate}}
+{{/objectionResolved}}{{#legal}}- Payment due as per {{deadlineSection}}: {{dueDate}}
+{{/legal}}
+{{#legal}}
+We are registered as a {{category}} enterprise under the MSMED Act, 2006. As of {{asOfDate}}, the payment is {{daysOverdueText}} past the due date.
 
 For your accounts team's reference:
 
-1. Under {{interestSection}}, interest of {{interest}} has accrued so far, at three times the RBI bank rate, compounded monthly.
-2. Under {{taxSection}} of the {{taxAct}}, an amount payable to a micro or small enterprise that remains unpaid past its due date on 31 March can't be claimed as an expense for that tax year.
-
+1. Under {{interestSection}}, interest of {{interest}} has accrued so far, at {{interestMultiplier}} times the RBI bank rate, compounded monthly.
+{{#taxApplies}}2. Under {{taxSection}} of the {{taxAct}}, an amount payable to a micro or small enterprise that remains unpaid past its due date on 31 March can't be claimed as an expense for that tax year.
+{{/taxApplies}}{{/legal}}
 We would be grateful if you could arrange the payment at the earliest. If it has already been processed, please share the payment reference and kindly ignore this letter.
 
 Thank you for your continued business.
@@ -34,4 +36,4 @@ Thank you for your continued business.
 Warm regards,
 {{supplierSignatory}}
 {{supplierName}}
-{{supplierPhone}} | {{supplierEmail}}
+{{supplierPhone}}{{#supplierEmail}} | {{supplierEmail}}{{/supplierEmail}}

@@ -13,7 +13,7 @@ Subject: Final notice before filing a delayed-payment reference — invoice {{in
 
 Dear {{buyerContactPerson}},
 
-This is our final request regarding invoice {{invoiceNumber}} for {{amount}}, due on {{dueDate}} and now {{daysOverdue}} days overdue. Interest accrued under {{interestSection}} as of {{asOfDate}} is {{interest}}.
+This is our final request regarding invoice {{invoiceNumber}} for {{amount}}, due on {{dueDate}} and now {{daysOverdueText}} overdue. Interest accrued under {{interestSection}} as of {{asOfDate}} is {{interest}}.
 
 If we do not receive full payment with interest within 15 days of this notice, we intend to file a reference before the Micro and Small Enterprises Facilitation Council through the {{complaintPortal}}, as provided under the MSMED Act, 2006.
 
@@ -22,4 +22,4 @@ We would much prefer to settle this directly and continue our business relations
 Regards,
 {{supplierSignatory}}
 {{supplierName}}
-{{supplierPhone}} | {{supplierEmail}}
+{{supplierPhone}}{{#supplierEmail}} | {{supplierEmail}}{{/supplierEmail}}
