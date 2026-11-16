@@ -2,7 +2,8 @@
   "app": {
     "name": "Bakaya",
     "skipToMain": "Skip to main content",
-    "homeLink": "Bakaya, go to the calculator"
+    "homeLink": "Bakaya, go to the calculator",
+    "beta": "Beta: some rates and rules are still being checked with a Chartered Accountant. Spotted a mistake? Email {{email}}."
   },
   "common": {
     "yes": "Yes",
@@ -275,7 +276,8 @@
   },
   "footer": {
     "ratesReviewed": "Rates last reviewed: {{date}}",
-    "info": "Information only, not legal or tax advice."
+    "info": "Information only, not legal or tax advice.",
+    "contact": "Questions or corrections: {{email}}"
   },
   "content": {
     "sources": "Sources",
@@ -386,7 +388,11 @@
         "heading": "Changes",
         "body": "If anything here changes, we will update this page first."
       }
-    ]
+    ],
+    "contact": {
+      "heading": "Contact",
+      "body": "Questions about your privacy, or a request about the early-access list? Email {{email}}."
+    }
   },
   "terms": {
     "title": "Terms of use",
@@ -416,7 +422,11 @@
         "heading": "Changes",
         "body": "We may update the tool and these terms. The version on this page is the one that applies."
       }
-    ]
+    ],
+    "contact": {
+      "heading": "Contact",
+      "body": "Found a wrong figure, or have a complaint? Email {{email}}. We reply within 7 days."
+    }
   },
   "notFound": {
     "title": "Page not found",

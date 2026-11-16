@@ -1,5 +1,7 @@
 {
   "lastReviewed": "2026-11-07",
+  "caReviewed": false,
+  "caReviewedNote": "Set to true only after a Chartered Accountant has signed off every VERIFY item in docs/LEGAL_RULES.md. While false (or while any rate or source is unverified) the site shows a beta banner.",
   "paymentRules": {
     "noAgreementDays": 15,
     "maxAgreedDays": 45,

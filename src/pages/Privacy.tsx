@@ -1,4 +1,5 @@
 // /privacy: nothing leaves the device; cookieless analytics only.
+import { WithEmail } from '../components/Contact';
 import { ContentPage, Section } from '../components/content';
 import { t, tSections } from '../i18n';
 
@@ -10,6 +11,11 @@ export default function Privacy() {
           <p>{s.body}</p>
         </Section>
       ))}
+      <Section heading={t('privacy.contact.heading')}>
+        <p>
+          <WithEmail k="privacy.contact.body" />
+        </p>
+      </Section>
     </ContentPage>
   );
 }

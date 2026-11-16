@@ -1,4 +1,5 @@
 // /terms: information only, not legal advice.
+import { WithEmail } from '../components/Contact';
 import { ContentPage, Section } from '../components/content';
 import { Disclaimer } from '../components/result/cards';
 import { legalConfig } from '../data';
@@ -12,6 +13,11 @@ export default function Terms() {
           <p>{s.body}</p>
         </Section>
       ))}
+      <Section heading={t('terms.contact.heading')}>
+        <p>
+          <WithEmail k="terms.contact.body" />
+        </p>
+      </Section>
       <Disclaimer text={legalConfig.disclaimer} />
     </ContentPage>
   );

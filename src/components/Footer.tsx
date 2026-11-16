@@ -1,6 +1,7 @@
 import { bankRates } from '../data';
 import { formatDisplayDate } from '../domain/dates';
 import { t } from '../i18n';
+import { WithEmail } from './Contact';
 import { Link } from './Link';
 
 const linkClass =
@@ -41,6 +42,9 @@ export function Footer() {
           >
             {t('footer.ratesReviewed', { date: formatDisplayDate(bankRates.lastReviewed) })}
           </Link>
+        </p>
+        <p>
+          <WithEmail k="footer.contact" />
         </p>
         <p className="text-sm">{t('footer.info')}</p>
       </div>

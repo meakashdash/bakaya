@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
+import { WithEmail } from './components/Contact';
 import { Footer } from './components/Footer';
 import { Link } from './components/Link';
 import { t } from './i18n';
@@ -10,6 +11,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import { routeFor, useLocation } from './router';
 import { pageMeta } from './seo/meta';
+import { isBeta } from './site';
 
 // The one place the app reads the clock: today's local calendar date, passed down as asOfDate.
 const localToday = () => format(new Date(), 'yyyy-MM-dd');
@@ -61,6 +63,11 @@ export default function App() {
           </Link>
         </div>
       </header>
+      {isBeta && (
+        <p className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm text-amber-950">
+          <WithEmail k="app.beta" />
+        </p>
+      )}
       <main
         id="main"
         tabIndex={-1}

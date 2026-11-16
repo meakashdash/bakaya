@@ -28,6 +28,7 @@ const bankRatesSchema = z.object({
 
 const legalConfigSchema = z.object({
   lastReviewed: isoDate,
+  caReviewed: z.boolean(),
   paymentRules: z.object({
     noAgreementDays: z.number().int().positive(),
     maxAgreedDays: z.number().int().positive(),
